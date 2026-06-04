@@ -1,0 +1,31 @@
+# Paper 17 analysis dependencies
+#
+# Python >= 3.10 required.
+# Install with: pip install -r requirements.txt
+#
+# Versions below are MINIMUM versions known to work with the analyses.
+# After your local venv is built, regenerate exact pins with:
+#   pip freeze > requirements.lock.txt
+# and commit the lock file alongside this requirements.txt for reproducibility.
+
+# --- Core scientific stack ---
+numpy>=1.24,<3.0
+pandas>=2.0,<3.0
+scipy>=1.10
+pyarrow>=14.0          # parquet I/O for cohort tables
+
+# --- Statistics ---
+statsmodels>=0.14      # logistic regression, mixed effects, robust SEs
+
+# --- Plotting ---
+matplotlib>=3.7
+
+# --- Config ---
+pyyaml>=6.0            # cohort/config.yaml
+
+# --- Development / optional ---
+# Uncomment if used:
+# black>=24.0
+# ruff>=0.4
+# pytest>=8.0
+# jupyterlab>=4.0
