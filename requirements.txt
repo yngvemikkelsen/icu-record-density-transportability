@@ -1,31 +1,26 @@
-# Paper 17 analysis dependencies
+# Dependencies for the analysis scripts in scripts/.
 #
-# Python >= 3.10 required.
-# Install with: pip install -r requirements.txt
+# The scripts carry PEP 723 inline metadata and are intended to be run with uv,
+# which resolves these automatically:
 #
-# Versions below are MINIMUM versions known to work with the analyses.
-# After your local venv is built, regenerate exact pins with:
-#   pip freeze > requirements.lock.txt
-# and commit the lock file alongside this requirements.txt for reproducibility.
+#     uv run scripts/paper17_diagnose_exposure.py --help
+#
+# This file exists for anyone using a conventional virtual environment instead:
+#
+#     python -m venv .venv && source .venv/bin/activate
+#     pip install -r requirements.txt
+#
+# Lower bounds are the versions the analysis was developed and run against.
+# No upper bounds are pinned: nothing here uses an API that has been unstable
+# across these ranges. If you need byte-exact reproduction, pin the exact
+# versions recorded below.
 
-# --- Core scientific stack ---
-numpy>=1.24,<3.0
-pandas>=2.0,<3.0
-scipy>=1.10
-pyarrow>=14.0          # parquet I/O for cohort tables
+pandas>=2.2
+numpy>=1.26
+statsmodels>=0.14
+pyarrow>=15.0        # parquet caches for the extracted timestamp series
+matplotlib>=3.8      # figures only (scripts/paper17_figures.py)
 
-# --- Statistics ---
-statsmodels>=0.14      # logistic regression, mixed effects, robust SEs
-
-# --- Plotting ---
-matplotlib>=3.7
-
-# --- Config ---
-pyyaml>=6.0            # cohort/config.yaml
-
-# --- Development / optional ---
-# Uncomment if used:
-# black>=24.0
-# ruff>=0.4
-# pytest>=8.0
-# jupyterlab>=4.0
+# Versions used for the results reported in the manuscript:
+#   pandas 3.0.2, numpy 2.4.4, statsmodels 0.14.6, pyarrow 25.0.1,
+#   matplotlib 3.10.8, Python 3.12
