@@ -1,115 +1,152 @@
-# mimic-eicu-record-density
+# ICU vital-sign record density: source-stream and site-level variation
 
 Analysis code for:
 
-**Mikkelsen Y.** Transportability of ICU vital-sign record density as an EHR-derived process measure across MIMIC-IV and eICU-CRD. *International Journal of Medical Informatics* (under review, 2026).
+> Mikkelsen Y. Data-Stream and Hospital-Level Variation in ICU Vital-Sign Record
+> Density Across MIMIC-IV and eICU-CRD: Retrospective Data Quality Study.
+> *JMIR Medical Informatics* (submitted 2026).
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.XXXXXXX.svg)](https://doi.org/10.5281/zenodo.XXXXXXX)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![DOI](https://zenodo.org/badge/DOI/PLACEHOLDER.svg)](https://doi.org/PLACEHOLDER)
 
 ---
 
-## What this is
+## What this study does
 
-This repository contains the analysis code used to produce the results reported in the manuscript above. The study tests whether ICU vital-sign record density — a candidate EHR-derived process measure — retains consistent clinical meaning when measured across recording systems with different data-generating architectures (MIMIC-IV hybrid nurse-plus-monitor stream vs eICU-CRD monitor-only stream).
+Vital-sign record density — the count of charted observations per unit time — is
+used as a process measure in clinical informatics. This study asks at which level
+it varies: data stream, database, contributing site, or care unit.
 
-Three cross-cohort questions are addressed:
+The answer, across MIMIC-IV and eICU-CRD, is the **contributing site**. Two
+further results follow from that. A difference that looks architectural is
+reproduced by the choice of source table within one database: pairing MIMIC-IV
+against eICU-CRD's monitor stream places 96.0% of the variance in record count at
+the database level, and pairing the same MIMIC-IV data against eICU-CRD's nurse
+stream reduces it to 2.6%. And a pooled low-density threshold designates
+hospitals rather than patients: five of 68 hospitals supply half of everything it
+flags.
 
-1. Does cyclic temporal structure in vital-sign record density replicate across cohorts?
-2. Is low record density associated with mortality consistently across cohorts at corresponding operationalisations?
-3. Do the two recording streams index the same underlying clinical construct, as measured by acuity-coupling strength?
+No patient-outcome association is interpreted as a study finding. The reason is
+given in the manuscript: no severity instrument can be harmonised across the two
+cohorts without either sharing the exposure's data stream or discarding a quarter
+of one cohort in a manner correlated with the exposure.
 
-The principal finding: cyclic temporal structure replicates reproducibly, but the mortality-relevant interpretation of the measure does not transport across recording streams.
+---
 
-## Data access
+## Data
 
-**This repository contains analysis code only. It does not contain patient data.**
+Neither dataset is redistributed here. Both require credentialed access through
+PhysioNet under their respective data use agreements:
 
-The underlying datasets are subject to PhysioNet credentialed access and **must not be redistributed**:
+- **MIMIC-IV v3.1** — https://physionet.org/content/mimiciv/3.1/
+- **eICU-CRD v2.0** — https://physionet.org/content/eicu-crd/2.0/
 
-- MIMIC-IV v3.1: <https://physionet.org/content/mimiciv/3.1/>
-- eICU Collaborative Research Database v2.0: <https://physionet.org/content/eicu-crd/2.0/>
+Scripts take `--mimic-root` and `--eicu-root` pointing at local extractions.
+Nothing in `results/` contains patient-level data; all outputs are aggregate.
 
-To reproduce the analyses you must obtain your own PhysioNet credentialed access (which requires completion of CITI training in human subjects research) and place the downloaded files at the paths configured in `cohort/config.yaml`.
+---
 
-## Repository structure
+## Scripts, in the order they were run
 
-```
-mimic-eicu-record-density/
-├── cohort/                    Cohort construction scripts
-│   ├── build_mimic_cohort.py
-│   ├── build_eicu_cohort.py
-│   ├── config.yaml            Data paths and exclusion thresholds
-│   └── README.md              Exclusion criteria, expected row counts
-├── analysis/                  Statistical analyses
-│   ├── temporal_pattern.py    Cyclic admission-hour structure (Table 2, Figure 2)
-│   ├── mortality_models.py    Three exposure specifications (Table 3, Figure 3)
-│   ├── acuity_coupling.py     R² diagnostic (Table 4)
-│   ├── negative_controls.py   CVICU, weekend, recent-era falsification (Supp S1)
-│   └── threshold_sensitivity.py  Per-hospital threshold sweep (Supp S2)
-├── figures/                   PNG figure generation
-│   └── generate_figures.py
-├── docs/
-│   └── reproducibility.md     Step-by-step replication guide
-├── outputs/                   Generated locally; not tracked in git
-├── requirements.txt           Pinned Python dependencies
-├── LICENSE                    MIT
-├── CITATION.cff               Machine-readable citation metadata
-└── README.md                  This file
-```
+Each maps to the manuscript section it produces. Most cache intermediate
+extractions to parquet, so reruns after the first are fast.
 
-## Software requirements
+| # | Script | Produces |
+|---|---|---|
+| 1 | `paper17_diagnose_exposure.py` | Exposure composition: which itemids reconstruct the conventional count, and their charting-hour concentration (Table 1, Figure 1) |
+| 2 | `paper17_reconcile_counts.py` | Reconciles the three competing definitions of "heart-rate records in the first 24 h" |
+| 3 | `paper17_build_physiology_v2.py` | First-24 h median/IQR physiology summaries, both cohorts, avoiding order statistics |
+| 4 | `paper17_unit_documentation_profile.py` | MIMIC-IV documentation profile by care unit |
+| 5 | `paper17_eicu_documentation_profile.py` | eICU-CRD profile by unit type and by hospital, both source streams |
+| 6 | `paper17_pooled_unit_comparison.py` | Pooled decomposition and unit-by-unit positioning of MIMIC-IV against eICU-CRD |
+| 7 | `paper17_decomposition_ci.py` | Hospital-clustered bootstrap on the decomposition; mixed-effects variance partition (Table 3, Figure 2) |
+| 8 | `paper17_stream_selection.py` | Nurse-versus-monitor stream comparison (Table 2) |
+| 9 | `paper17_chance_comparator.py` | Correct chance comparator for stream agreement under integer ties |
+| 10 | `paper17_threshold_consequence.py` | Pooled versus site-specific low-density thresholds (Figure 4) |
+| 11 | `paper17_sensitivity.py` | Eligibility sensitivity and mixed-model variance partition |
+| 12 | `paper17_temporal_rerun.py` | Admission-hour association under four specifications (Table 4) |
+| 13 | `paper17_probe_vitals.py` | Verifies itemids and value-name strings for the replication variables |
+| 14 | `paper17_cross_vitals.py` | Replication in oxygen saturation and respiratory rate |
+| 15 | `paper17_table5_harmonise.py` | Puts the replication variance components on one cohort basis (Table 5) |
+| 16 | `paper17_figures.py` | Figures 1–4 |
 
-- Python ≥ 3.10
-- See `requirements.txt` for pinned versions
+Three further scripts document the severity-harmonisation attempt reported in the
+manuscript as unsuccessful. They are included because the negative result is part
+of the argument:
+
+| Script | Purpose |
+|---|---|
+| `paper17_probe_sofa_coverage.py` | Coverage of candidate severity components in both cohorts |
+| `paper17_build_severity_v3.py` | Harmonised severity components, worst-value rule stated in the header |
+| `bcst_residualization_v2.py` | Residualisation and outcome models under three adjustment regimes |
+
+---
+
+## Running
+
+Scripts use [PEP 723](https://peps.python.org/pep-0723/) inline dependency
+metadata and are intended to be run with [uv](https://docs.astral.sh/uv/):
 
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
+uv run scripts/paper17_diagnose_exposure.py \
+    --mimic-root ~/physionet.org/files/mimiciv/3.1 \
+    --mimic-per-stay path/to/per_stay.csv \
+    --out-dir out/exposure
 ```
 
-The analyses were developed and run on macOS 26 (Tahoe) on an Apple Silicon M2 Max with 64 GB RAM. They do not require a GPU. Full reproduction takes approximately 30–45 minutes wall-clock on the reference hardware.
+Each script prints its own usage. Dependencies are pandas, numpy, statsmodels,
+pyarrow and matplotlib; no script requires a GPU.
 
-## Reproducing the manuscript results
+The heavy passes are `paper17_build_physiology_v2.py` (one chartevents pass, one
+vitalPeriodic pass) and `paper17_cross_vitals.py` (three passes). Everything else
+runs from cached parquet in minutes.
 
-1. Obtain PhysioNet credentialed access and download MIMIC-IV v3.1 and eICU-CRD v2.0
-2. Edit `cohort/config.yaml` to point at your data paths
-3. Build cohorts: `python3 cohort/build_mimic_cohort.py && python3 cohort/build_eicu_cohort.py`
-4. Run analyses: `python3 analysis/temporal_pattern.py && python3 analysis/mortality_models.py && python3 analysis/acuity_coupling.py`
-5. Run negative controls and sensitivity sweep: `python3 analysis/negative_controls.py && python3 analysis/threshold_sensitivity.py`
-6. Generate figures: `python3 figures/generate_figures.py`
+---
 
-See `docs/reproducibility.md` for the full step-by-step guide including expected output row counts at each stage.
+## Reproducibility notes
 
-## Versioning
+Three points that matter for anyone re-running or extending this:
 
-The version archived at Zenodo under the DOI above corresponds to the manuscript-of-record. Subsequent commits to `main` reflect post-publication maintenance and may differ from the published-version code. Use the Zenodo DOI to cite the exact version associated with the paper.
+**Exposure composition is not obvious from the itemid.** The conventional MIMIC-IV
+heart-rate count reconstructs as 220045 + 220046 + 220047 at 99.3% exact
+agreement. The latter two are alarm limits, charted at shift boundaries, and are
+documentation events rather than observations. The same pattern holds for oxygen
+saturation (223769, 223770, 226253) and respiratory rate (224161, 224162).
+`paper17_diagnose_exposure.py` and `paper17_probe_vitals.py` establish this rather
+than assuming it.
+
+**Percentile rules on integer counts do not flag the nominal percentile.** Record
+counts are discrete, and a rule that includes all stays at or below a cutoff
+flags more than the nominal share wherever the distribution is narrow. This
+affects both the stream-agreement comparator and the threshold analysis;
+`paper17_chance_comparator.py` computes the correct comparator from observed
+marginals rather than assuming the nominal value.
+
+**Analysis sets differ by design and are named in the code.** The pooled
+decomposition uses all eligible stays from both cohorts. The eICU-CRD
+hospital-clustered bootstrap resamples every hospital contributing eligible
+stays. The mixed model and per-hospital summaries use hospitals contributing at
+least 500 nurse-stream stays. Unit-level profiles use hospital-by-unit-type cells
+with at least 50 stays. Estimates from different sets are not interchangeable.
+
+---
+
+## Repository contents
+
+```
+scripts/    analysis code, numbered above
+figures/    Figures 1-4 as PNG (300 dpi) and PDF
+results/    aggregate outputs: decomposition estimates, bootstrap intervals,
+            threshold agreement tables, replication summaries
+```
+
+---
 
 ## Citation
 
-If you use this code or build on the methods, please cite the paper:
+If you use this code, cite the manuscript. If you use the archived snapshot,
+cite the version DOI from the Zenodo badge above.
 
-> Mikkelsen Y. Transportability of ICU vital-sign record density as an EHR-derived process measure across MIMIC-IV and eICU-CRD. *International Journal of Medical Informatics*. 2026 (in press). doi:[insert at acceptance]
+## Licence
 
-You may also cite the archived code directly via the Zenodo DOI above. A machine-readable citation is available in [`CITATION.cff`](CITATION.cff).
-
-## License
-
-This code is released under the MIT License. See [`LICENSE`](LICENSE).
-
-The data licenses for MIMIC-IV and eICU-CRD are governed by their respective PhysioNet credentialed-access terms and are not affected by this code license.
-
-## Acknowledgments
-
-The author thanks the PhysioNet team and the original contributors to MIMIC-IV (Beth Israel Deaconess Medical Center; MIT Laboratory for Computational Physiology) and eICU-CRD (Philips Healthcare; MIT Laboratory for Computational Physiology) for making these datasets publicly available for secondary research use.
-
-This work was carried out as part of the author's Postgraduate Diploma in Artificial Intelligence for Business at Saïd Business School, University of Oxford.
-
-## Contact
-
-Yngve Mikkelsen, MD, MSc, DBA
-Saïd Business School, University of Oxford
-[insert email]
-
-For questions about reproducing the analyses, please open a GitHub issue.
+Code released under the MIT Licence (see `LICENSE`). The manuscript and figures
+are separately licensed; see the journal version for terms.
