@@ -1,0 +1,14 @@
+# Never commit data extractions
+*.parquet
+*.csv.gz
+physionet.org/
+direct_data/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.uv/
+
+# OS
+.DS_Store

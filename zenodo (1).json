@@ -1,0 +1,39 @@
+{
+  "title": "ICU vital-sign record density: source-stream and site-level variation",
+  "description": "<p>Analysis code for a retrospective data-quality study of vital-sign record density across MIMIC-IV v3.1 and eICU-CRD v2.0. The study decomposes variance in documentation metrics by data stream, database, contributing site and care unit, and reports three consequences for the use of record density as a process measure: exposure composition includes shift-anchored alarm-limit records; an apparently architectural difference between databases is reproduced by the choice of source table; and a pooled low-density threshold designates hospitals rather than patients.</p><p>No patient-level data are redistributed. Both source databases require credentialed access through PhysioNet.</p>",
+  "upload_type": "software",
+  "license": "MIT",
+  "access_right": "open",
+  "creators": [
+    {
+      "name": "Mikkelsen, Yngve",
+      "orcid": "0000-0003-1543-3805",
+      "affiliation": "Saïd Business School, University of Oxford"
+    }
+  ],
+  "keywords": [
+    "electronic health records",
+    "intensive care",
+    "data quality",
+    "process measures",
+    "informative observation",
+    "secondary use",
+    "clinical informatics",
+    "MIMIC-IV",
+    "eICU-CRD"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "10.13026/kpb9-mt58",
+      "relation": "isDerivedFrom",
+      "resource_type": "dataset",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.13026/C2WM1R",
+      "relation": "isDerivedFrom",
+      "resource_type": "dataset",
+      "scheme": "doi"
+    }
+  ]
+}
