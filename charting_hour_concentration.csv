@@ -1,0 +1,25 @@
+itemid,top3_share,top_hours,label
+223769,0.5302526505664993,"[0, 8, 20]",O2 Saturation Pulseoxymetry Alarm - High
+223770,0.5299823972081511,"[0, 8, 20]",O2 Saturation Pulseoxymetry Alarm - Low
+220046,0.5281555323351969,"[0, 8, 20]",Heart rate Alarm - High
+220047,0.527912010853824,"[0, 8, 20]",Heart Rate Alarm - Low
+223948,0.45004239346854785,"[0, 8, 20]",Radial Pulse L
+223936,0.44785247497542957,"[0, 8, 20]",Radial Pulse R
+223943,0.4314960900070333,"[0, 8, 20]",Dorsal PedPulse L
+223947,0.42943576526952326,"[0, 8, 20]",PostTib. Pulses L
+223934,0.4268474990146031,"[0, 8, 20]",Dorsal PedPulse R
+223935,0.42408790372449223,"[0, 8, 20]",PostTib. Pulses R
+223949,0.4206276858966011,"[0, 8, 20]",Ulnar Pulse L
+223938,0.4083869430545628,"[0, 8, 20]",Ulnar Pulse R
+223944,0.3932801547014745,"[8, 16, 20]",Brachial Pulse L
+223939,0.38988235294117646,"[8, 16, 20]",Brachial Pulse R
+230037,0.36170212765957444,"[8, 14, 20]",HR per min
+223945,0.3403370085292282,"[0, 8, 20]",Femoral Pulse L
+229770,0.3360215053763441,"[8, 12, 16]",Resting Pulse Rate (COWS)
+223946,0.3208523592085236,"[0, 8, 20]",Popliteal Pulse L
+223941,0.31619198312236285,"[0, 8, 20]",Popliteal Pulse R
+223940,0.31115847160907295,"[0, 8, 20]",Femoral Pulse R
+223942,0.16616897944844547,"[0, 8, 20]",Graft/Flap Pulse
+228194,0.156957928802589,"[1, 4, 6]",Peripheral Pulses (Tandem Heart)
+220045,0.13119094204113135,"[12, 14, 16]",Heart Rate
+220277,0.1305649487575013,"[12, 14, 16]",O2 saturation pulseoxymetry

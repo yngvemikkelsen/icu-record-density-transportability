@@ -1,0 +1,25 @@
+itemid,records,stays,nonnull_valuenum,label,records_per_stay
+220045,2446114,94361,2446114,Heart Rate,25.92
+220277,2388252,94216,2388252,O2 saturation pulseoxymetry,25.35
+223934,416076,91752,0,Dorsal PedPulse R,4.53
+223943,408057,91727,0,Dorsal PedPulse L,4.45
+223935,315345,82393,0,PostTib. Pulses R,3.83
+223947,308081,82314,0,PostTib. Pulses L,3.74
+220047,262396,93018,262396,Heart Rate Alarm - Low,2.82
+220046,262222,93012,262222,Heart rate Alarm - High,2.82
+223770,260186,92974,260186,O2 Saturation Pulseoxymetry Alarm - Low,2.8
+223769,258341,92884,258341,O2 Saturation Pulseoxymetry Alarm - High,2.78
+223936,214689,66224,0,Radial Pulse R,3.24
+223948,209938,65666,0,Radial Pulse L,3.2
+223938,8394,4244,0,Ulnar Pulse R,1.98
+223949,7679,3611,0,Ulnar Pulse L,2.13
+223940,6569,2381,0,Femoral Pulse R,2.76
+223942,5693,627,0,Graft/Flap Pulse,9.08
+223945,4807,2069,0,Femoral Pulse L,2.32
+223939,4250,2137,0,Brachial Pulse R,1.99
+223944,4137,2089,0,Brachial Pulse L,1.98
+223941,3792,1572,0,Popliteal Pulse R,2.41
+223946,3285,1478,0,Popliteal Pulse L,2.22
+228194,618,16,0,Peripheral Pulses (Tandem Heart),38.62
+229770,372,98,372,Resting Pulse Rate (COWS),3.8
+230037,47,31,47,HR per min,1.52
