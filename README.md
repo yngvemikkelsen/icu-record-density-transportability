@@ -6,7 +6,7 @@ Analysis code for:
 > Density Across MIMIC-IV and eICU-CRD: Retrospective Data Quality Study.
 > *JMIR Medical Informatics* (submitted 2026).
 
-[![DOI](https://zenodo.org/badge/DOI/PLACEHOLDER.svg)](https://doi.org/PLACEHOLDER)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21901638.svg)](https://doi.org/10.5281/zenodo.21901638)
 
 ---
 
