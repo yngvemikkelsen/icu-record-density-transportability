@@ -1,0 +1,8 @@
+cohort,component,coverage,median,n_records,labnames
+eICU,platelets,0.80035746468916,184.0,226876,platelets x 1000
+eICU,bilirubin,0.37132515844448094,0.6,103918,total bilirubin|direct bilirubin
+eICU,creatinine,0.8457574716592237,1.03,271065,creatinine|urinary creatinine
+eICU,pao2,0.0,,0,
+eICU,fio2,0.33123733564341157,40.0,135436,FiO2
+eICU,gcs,0.0,,0,
+eICU,vasoactive,0.11264618463698416,,355983,

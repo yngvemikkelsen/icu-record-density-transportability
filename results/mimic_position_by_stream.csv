@@ -1,0 +1,13 @@
+stream,metric,mimic_median,eicu_median,mimic_pctile_min,mimic_pctile_max
+vitalPeriodic,n_records,25.5,284.0,0.0,0.0
+vitalPeriodic,median_interval_min,60.0,5.0,1.0,1.0
+vitalPeriodic,iqr_interval_min,0.0,0.0,0.0,1.0
+vitalPeriodic,max_interval_min,60.000000000000114,5.0,1.0,1.0
+vitalPeriodic,n_gaps_gt2h,0.0,0.0,0.0,0.0
+vitalPeriodic,frac_time_in_gaps,0.0,0.0,0.0,0.0
+nurseCharting,n_records,25.5,28.0,0.25630252100840334,0.4117647058823529
+nurseCharting,median_interval_min,60.0,60.0,0.3739495798319328,0.3739495798319328
+nurseCharting,iqr_interval_min,0.0,15.0,0.0,0.6722689075630253
+nurseCharting,max_interval_min,60.000000000000114,105.0,0.23109243697478993,0.5210084033613446
+nurseCharting,n_gaps_gt2h,0.0,0.0,0.0,0.0
+nurseCharting,frac_time_in_gaps,0.0,0.0,0.0,0.0

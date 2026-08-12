@@ -1,0 +1,4 @@
+source,n_stays,mean,median,p10,p90,median_interval_min,bottom10_cutoff
+MIMIC chartevents,67140,27.955868334822757,26.0,23.0,36.0,60.0,23.0
+vitalPeriodic,130294,273.5474235191183,284.0,251.0,287.0,5.0,251.0
+nurseCharting,119317,34.8627354023316,29.0,7.0,71.0,60.0,7.0

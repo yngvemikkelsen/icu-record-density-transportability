@@ -1,0 +1,57 @@
+mimic_unit,eicu_unittype,metric,mimic_value,eicu_median,percentile,n_eicu_units
+Cardiac Vascular Intensive Care Unit (CVICU),CTICU,n_records,27.0,33.5,0.1,10
+Cardiac Vascular Intensive Care Unit (CVICU),CTICU,t_first_h,2.5719444444444446,0.175,1.0,10
+Cardiac Vascular Intensive Care Unit (CVICU),CTICU,median_interval_min,60.0,44.25,0.7,10
+Cardiac Vascular Intensive Care Unit (CVICU),CTICU,iqr_interval_min,30.0,24.75,0.7,10
+Cardiac Vascular Intensive Care Unit (CVICU),CTICU,max_interval_min,60.000000000000114,81.5,0.4,10
+Cardiac Vascular Intensive Care Unit (CVICU),CTICU,n_gaps_gt30m,19.0,19.0,0.5,10
+Cardiac Vascular Intensive Care Unit (CVICU),CTICU,n_gaps_gt2h,0.0,0.0,0.0,10
+Cardiac Vascular Intensive Care Unit (CVICU),CTICU,frac_time_in_gaps,0.0,0.0,0.0,10
+Coronary Care Unit (CCU),Cardiac ICU,n_records,26.0,30.0,0.29411764705882354,17
+Coronary Care Unit (CCU),Cardiac ICU,t_first_h,0.23333333333333334,0.18333333333333332,0.6470588235294118,17
+Coronary Care Unit (CCU),Cardiac ICU,median_interval_min,60.0,60.0,0.35294117647058826,17
+Coronary Care Unit (CCU),Cardiac ICU,iqr_interval_min,0.0,18.0,0.0,17
+Coronary Care Unit (CCU),Cardiac ICU,max_interval_min,60.000000000000114,116.0,0.23529411764705882,17
+Coronary Care Unit (CCU),Cardiac ICU,n_gaps_gt30m,22.0,13.0,1.0,17
+Coronary Care Unit (CCU),Cardiac ICU,n_gaps_gt2h,0.0,0.0,0.0,17
+Coronary Care Unit (CCU),Cardiac ICU,frac_time_in_gaps,0.0,0.0,0.0,17
+Medical Intensive Care Unit (MICU),MICU,n_records,25.0,27.5,0.3,20
+Medical Intensive Care Unit (MICU),MICU,t_first_h,0.25,0.2,0.6,20
+Medical Intensive Care Unit (MICU),MICU,median_interval_min,60.0,60.0,0.2,20
+Medical Intensive Care Unit (MICU),MICU,iqr_interval_min,0.0,19.9375,0.0,20
+Medical Intensive Care Unit (MICU),MICU,max_interval_min,60.000000000000114,90.0,0.3,20
+Medical Intensive Care Unit (MICU),MICU,n_gaps_gt30m,22.0,15.5,0.85,20
+Medical Intensive Care Unit (MICU),MICU,n_gaps_gt2h,0.0,0.0,0.0,20
+Medical Intensive Care Unit (MICU),MICU,frac_time_in_gaps,0.0,0.0,0.0,20
+Medical/Surgical Intensive Care Unit (MICU/SICU),Med-Surg ICU,n_records,25.0,27.0,0.37777777777777777,135
+Medical/Surgical Intensive Care Unit (MICU/SICU),Med-Surg ICU,t_first_h,0.3333333333333333,0.23333333333333334,0.6666666666666666,135
+Medical/Surgical Intensive Care Unit (MICU/SICU),Med-Surg ICU,median_interval_min,60.0,60.0,0.35555555555555557,135
+Medical/Surgical Intensive Care Unit (MICU/SICU),Med-Surg ICU,iqr_interval_min,0.0,15.0,0.0,135
+Medical/Surgical Intensive Care Unit (MICU/SICU),Med-Surg ICU,max_interval_min,60.000000000000114,120.0,0.15555555555555556,135
+Medical/Surgical Intensive Care Unit (MICU/SICU),Med-Surg ICU,n_gaps_gt30m,22.0,12.0,0.9481481481481482,135
+Medical/Surgical Intensive Care Unit (MICU/SICU),Med-Surg ICU,n_gaps_gt2h,0.0,0.0,0.0,135
+Medical/Surgical Intensive Care Unit (MICU/SICU),Med-Surg ICU,frac_time_in_gaps,0.0,0.0,0.0,135
+Neuro Surgical Intensive Care Unit (Neuro SICU),Neuro ICU,n_records,26.0,29.0,0.1875,16
+Neuro Surgical Intensive Care Unit (Neuro SICU),Neuro ICU,t_first_h,0.26555555555555554,0.175,0.75,16
+Neuro Surgical Intensive Care Unit (Neuro SICU),Neuro ICU,median_interval_min,60.0,60.0,0.4375,16
+Neuro Surgical Intensive Care Unit (Neuro SICU),Neuro ICU,iqr_interval_min,0.0,15.0,0.0,16
+Neuro Surgical Intensive Care Unit (Neuro SICU),Neuro ICU,max_interval_min,69.0,87.5,0.1875,16
+Neuro Surgical Intensive Care Unit (Neuro SICU),Neuro ICU,n_gaps_gt30m,22.0,18.0,0.9375,16
+Neuro Surgical Intensive Care Unit (Neuro SICU),Neuro ICU,n_gaps_gt2h,0.0,0.0,0.0,16
+Neuro Surgical Intensive Care Unit (Neuro SICU),Neuro ICU,frac_time_in_gaps,0.0,0.0,0.0,16
+Surgical Intensive Care Unit (SICU),SICU,n_records,26.0,29.0,0.3125,16
+Surgical Intensive Care Unit (SICU),SICU,t_first_h,0.21666666666666667,0.18333333333333332,0.625,16
+Surgical Intensive Care Unit (SICU),SICU,median_interval_min,60.0,60.0,0.375,16
+Surgical Intensive Care Unit (SICU),SICU,iqr_interval_min,0.0,6.25,0.0,16
+Surgical Intensive Care Unit (SICU),SICU,max_interval_min,61.0,67.5,0.5,16
+Surgical Intensive Care Unit (SICU),SICU,n_gaps_gt30m,22.0,13.5,0.8125,16
+Surgical Intensive Care Unit (SICU),SICU,n_gaps_gt2h,0.0,0.0,0.0,16
+Surgical Intensive Care Unit (SICU),SICU,frac_time_in_gaps,0.0,0.0,0.0,16
+Trauma SICU (TSICU),SICU,n_records,26.0,29.0,0.3125,16
+Trauma SICU (TSICU),SICU,t_first_h,0.21666666666666667,0.18333333333333332,0.625,16
+Trauma SICU (TSICU),SICU,median_interval_min,60.0,60.0,0.375,16
+Trauma SICU (TSICU),SICU,iqr_interval_min,0.0,6.25,0.0,16
+Trauma SICU (TSICU),SICU,max_interval_min,60.000000000000114,67.5,0.5,16
+Trauma SICU (TSICU),SICU,n_gaps_gt30m,22.0,13.5,0.8125,16
+Trauma SICU (TSICU),SICU,n_gaps_gt2h,0.0,0.0,0.0,16
+Trauma SICU (TSICU),SICU,frac_time_in_gaps,0.0,0.0,0.0,16
