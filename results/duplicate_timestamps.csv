@@ -1,0 +1,4 @@
+stream,n_records,n_stays,n_duplicate_records,share_records_duplicated,n_stays_affected,share_stays_affected,max_records_one_timestamp,share_zero_length_gaps,median_count_raw,median_count_dedup,median_interval_raw,median_interval_dedup,material
+"MIMIC-IV chartevents, heart rate (220045)",2444918,94353,0,0.0,0,0.0,1,0.0,25.0,25.0,60.0,60.0,False
+"eICU-CRD nurseCharting, heart rate",5223657,181731,2,3.828735309381914e-07,2,1.1005277030336046e-05,2,3.966738107619985e-07,25.0,25.0,60.0,60.0,False
+"eICU-CRD vitalPeriodic, heart rate",45164349,191634,17,3.7640307845464573e-07,17,8.871077157498147e-05,2,3.780069760075637e-07,275.0,275.0,5.0,5.0,False

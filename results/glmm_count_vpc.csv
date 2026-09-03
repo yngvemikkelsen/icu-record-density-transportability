@@ -1,0 +1,4 @@
+model,vpc_hospital,vpc_unit,converged,level1_var,alpha
+"Gaussian LMM, standardised count",0.43386437729742894,0.08327973582579254,True,,
+"Poisson GLMM, latent-scale VPC",0.9266243756306815,0.02778503922423843,True,0.02713101974982589,
+"negative binomial GLMM, latent-scale VPC",0.7762061269169775,0.023274714382301335,True,0.1424536164316475,0.12559717778870666

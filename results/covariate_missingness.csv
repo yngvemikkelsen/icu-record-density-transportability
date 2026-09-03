@@ -1,0 +1,13 @@
+cohort,covariate,n_missing,share_missing
+MIMIC-IV,age_z,0,0.0
+MIMIC-IV,gender,0,0.0
+MIMIC-IV,n_comorbid_z,0,0.0
+MIMIC-IV,n_chapters_z,0,0.0
+MIMIC-IV,anchor_year_group,0,0.0
+MIMIC-IV,careunit,0,0.0
+MIMIC-IV,COMPLETE CASE,0,0.0
+eICU-CRD,age_z,12,6.603166218201627e-05
+eICU-CRD,gender,23,0.00012656068584886453
+eICU-CRD,unittype,0,0.0
+eICU-CRD,adm_hour,0,0.0
+eICU-CRD,COMPLETE CASE,27,0.0001485712399095366

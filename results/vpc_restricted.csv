@@ -1,0 +1,9 @@
+cohort,metric,model,vpc_hospital,vpc_unit,alpha
+unrestricted,Record count,Gaussian,0.43566088279197285,0.0829745576292654,
+unrestricted,Median interval,Gaussian,0.8212495792714654,0.011491399191748814,
+unrestricted,Fraction of window in gaps,Gaussian,0.6741012906920362,0.03331659021740948,
+unrestricted,Record count,Negative binomial,0.7762061269169775,0.023274714382301335,0.12559717778870666
+restricted,Record count,Gaussian,0.30575909081227787,0.10529908592074153,
+restricted,Median interval,Gaussian,0.18985395338772118,0.10267057888190141,
+restricted,Fraction of window in gaps,Gaussian,0.1579177027155566,0.10743117740857633,
+restricted,Record count,Negative binomial,0.43734920403218075,0.059075837964705905,0.1373755787340753
