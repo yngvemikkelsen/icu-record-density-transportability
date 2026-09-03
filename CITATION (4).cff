@@ -1,0 +1,40 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite both the software and the paper."
+title: "ICU vital-sign record density: source-stream and site-level variation"
+abstract: >-
+  Analysis code for a retrospective data-quality study of vital-sign record
+  density across MIMIC-IV and eICU-CRD, decomposing variance by data stream,
+  database, contributing site and care unit. Version 1.1.0 adds the revision
+  analyses: a plausibility-restricted primary cohort, a threshold sweep across
+  observation floors, a fitted negative-binomial generalized linear mixed model
+  for the count outcome, duplicate-timestamp and covariate-missingness checks,
+  excluded-stay characterisation, and entry-order sensitivity.
+authors:
+  - family-names: Mikkelsen
+    given-names: Yngve
+    orcid: "https://orcid.org/0000-0003-1543-3805"
+    affiliation: "Saïd Business School, University of Oxford"
+version: "1.1.0"
+date-released: "2026-09-03"
+license: MIT
+doi: "10.5281/zenodo.21901638"
+repository-code: "https://github.com/yngvemikkelsen/icu-record-density-transportability"
+keywords:
+  - electronic health records
+  - intensive care
+  - data quality
+  - process measures
+  - informative observation
+  - secondary use
+  - clinical informatics
+references:
+  - type: article
+    title: >-
+      Data-Stream and Hospital-Level Variation in ICU Vital-Sign Record Density
+      Across MIMIC-IV and eICU-CRD: Retrospective Data Quality Study
+    authors:
+      - family-names: Mikkelsen
+        given-names: Yngve
+    journal: "JMIR Medical Informatics"
+    year: 2026
+    notes: "Under revision"
