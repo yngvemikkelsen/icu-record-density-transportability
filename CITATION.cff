@@ -17,7 +17,7 @@ authors:
 version: "1.1.0"
 date-released: "2026-09-03"
 license: MIT
-doi: "10.5281/zenodo.21901638"
+doi: "10.5281/zenodo.22278837"
 repository-code: "https://github.com/yngvemikkelsen/icu-record-density-transportability"
 keywords:
   - electronic health records

@@ -160,6 +160,12 @@ $R "$S/paper17_tables_final.py" \
     --cross-dir "$OUT/cross_vitals" --eicu-root "$EICU" \
     --out-dir "$OUT/revision_tables"
 
+# Do the hospital attributes eICU-CRD records account for the site component?
+# 500 permutations per metric per cohort; allow ~10 min.
+$R "$S/paper17_hospital_attributes.py" \
+    --eicu-nc-cache "$NC" --eicu-root "$EICU" \
+    --out-dir "$OUT/hospital_attributes"
+
 # Verify the fitter recovers known variances, then fit the cohort. 10-20 min.
 $R "$S/paper17_nb_glmm.py" --simulate
 $R "$S/paper17_nb_glmm.py" \
@@ -193,4 +199,5 @@ echo "  Tables 3 and 5      $OUT/revision_tables/table{3,5}_cells.csv"
 echo "  Threshold, restricted   $OUT/revision_stage4/threshold_restricted.csv"
 echo "  Floor sweep         $OUT/revision_stage3/plausibility_thresholds.csv"
 echo "  NB GLMM             $OUT/nb_glmm/nb_glmm_vpc.csv"
+echo "  Hospital attributes $OUT/hospital_attributes/attribute_permutation.csv"
 echo "  Figures 2-5         $OUT/revision_figures/"

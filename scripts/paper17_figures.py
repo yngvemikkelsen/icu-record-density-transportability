@@ -8,10 +8,11 @@ Paper 17: build the four manuscript figures.
 
   Figure 1  Charting-hour distribution of heart-rate observations (220045)
             against the alarm-limit items (220046, 220047), MIMIC-IV.
-  Figure 2  Distribution of per-hospital median charting interval across eICU
-            hospitals (nurse stream), with MIMIC care units overlaid.
-  Figure 3  Variance decomposition by database, hospital and unit, with 95%
+  Figure 2  Variance decomposition by database, hospital and unit, with 95%
             bootstrap intervals on the eICU hospital and unit components.
+  Figure 3  Distribution of per-hospital median charting interval across eICU
+            hospitals (nurse stream), with MIMIC care units overlaid.
+            (Numbering follows the manuscript, not the order of computation.)
   Figure 4  Share of stays at each hospital designated low density by the
             pooled bottom-decile rule, against the MIMIC care units.
 
@@ -24,8 +25,8 @@ Usage:
   python paper17_figures.py \
       --unit-profile ~/bcst/unit_profile \
       --unit-profile-eicu ~/bcst/unit_profile_eicu \
-      --decomposition ~/bcst/decomposition_ci \
-      --threshold ~/bcst/threshold_consequence \
+      --decomposition ~/bcst/revision_tables \
+      --threshold ~/bcst/revision_stage4 \
       --exposure-diagnosis ~/bcst/exposure_diagnosis \
       --eicu-root ~/physionet.org/files/eicu-crd/2.0 \
       --out-dir ~/bcst/figures
@@ -154,7 +155,7 @@ def figure2(eicu_dir: Path, mimic_dir: Path, out_dir: Path):
     ax.set_xlim(-3, len(hosp))
     ax.set_xticks([])
     ax.legend(frameon=False, loc="upper left")
-    save(fig, out_dir, "Figure2_hospital_intervals")
+    save(fig, out_dir, "Figure3_hospital_intervals")
 
 
 # ---------------------------------------------------------------- Figure 3 --
@@ -197,7 +198,7 @@ def figure3(decomp_dir: Path, out_dir: Path):
     ax.grid(axis="x", lw=0.5, alpha=0.25)
     ax.set_axisbelow(True)
     ax.legend(frameon=False, loc="lower right")
-    save(fig, out_dir, "Figure3_variance_decomposition")
+    save(fig, out_dir, "Figure2_variance_decomposition")
 
 
 # ---------------------------------------------------------------- Figure 4 --
