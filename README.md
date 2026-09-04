@@ -6,7 +6,7 @@ Analysis code for:
 > Density Across MIMIC-IV and eICU-CRD: Retrospective Data Quality Study.
 > *JMIR Medical Informatics* (under revision, 2026).
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21901638.svg)](https://doi.org/10.5281/zenodo.21901638)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22278837.svg)](https://doi.org/10.5281/zenodo.22278837)
 
 ---
 
@@ -114,6 +114,7 @@ extractions to parquet, so reruns after the first are fast.
 | 22 | `paper17_tables_final.py` | Every Table 3 and Table 5 cell recomputed in one run so each has a single provenance. **Supersedes the table outputs of 7, 11 and 15.** |
 | 23 | `paper17_nb_glmm.py` | Fitted negative binomial GLMM, log link, random intercepts for hospital and unit within hospital, dispersion estimated jointly, maximum likelihood by Laplace approximation |
 | 24 | `paper17_revision_figures.py` | Figures 2, 3, 4 on the restricted cohort and Figure 5, at 184 dpi |
+| 25 | `paper17_hospital_attributes.py` | Whether the hospital attributes eICU-CRD records (bed-capacity category, teaching status, region) account for the site component, with a hospital-level permutation null |
 
 Three further scripts document the severity-harmonisation attempt reported in the
 manuscript as unsuccessful. They are included because the negative result is part
@@ -207,6 +208,16 @@ spans 0.000 to 0.759. The pooled columns are a descriptive summary under a state
 ordering; the variance partition coefficients carry the inferential statement.
 `paper17_stage2_glmm.py` computes both.
 
+**Conditioning on categorical attributes removes variance by construction.** The
+eICU-CRD `hospital` table records bed-capacity category, teaching status and
+region. Conditioning a metric on all three costs six indicator coefficients from
+a between-hospital structure with only as many degrees of freedom as there are
+hospitals, so part of the hospital component is removed whether or not the
+attributes are associated with it. `paper17_hospital_attributes.py` therefore
+refers each reduction to a null obtained by permuting the joint attribute vector
+across hospitals; on these data the null median reduction is 9-11%, against
+observed reductions of 14-29%.
+
 **Analysis sets differ by design and are named in the code.** The restricted
 primary cohort is 88,560 eICU-CRD stays across 60 hospitals, and 155,700 pooled
 stays across 61 hospitals. Unrestricted sensitivity analyses use 119,317 eICU-CRD
@@ -232,7 +243,7 @@ window. Estimates from different sets are not interchangeable.
 ├── setup.sh
 ├── run_all.sh                             full pipeline, dependency order
 │
-├── scripts/                               27 files
+├── scripts/                               28 files
 │   ├── paper17_diagnose_exposure.py           1  exposure composition
 │   ├── paper17_reconcile_counts.py            2  competing count definitions
 │   ├── paper17_build_physiology_v2.py         3  first-24 h physiology
@@ -257,6 +268,7 @@ window. Estimates from different sets are not interchangeable.
 │   ├── paper17_tables_final.py               22  every Table 3 and 5 cell
 │   ├── paper17_nb_glmm.py                    23  fitted NB GLMM
 │   ├── paper17_revision_figures.py           24  Figures 2-5, restricted
+│   ├── paper17_hospital_attributes.py        25  recorded site attributes
 │   ├── paper17_probe_sofa_coverage.py            severity component coverage
 │   ├── paper17_build_severity_v3.py              harmonised severity attempt
 │   └── bcst_residualization_v2.py                residualisation, outcome models
@@ -268,7 +280,7 @@ window. Estimates from different sets are not interchangeable.
 │   ├── Figure4_pooled_threshold.*             184 dpi, restricted cohort
 │   └── Figure5_flow.*                         184 dpi, participant flow
 │
-└── results/                               55 CSVs, aggregate only
+└── results/                               60 CSVs, aggregate only
     ├── README.md                              maps every file to its script
     │
     │   exposure composition (1, 2, 13)
@@ -342,7 +354,14 @@ window. Estimates from different sets are not interchangeable.
     ├── hospital_medians.csv
     ├── table3_cells.csv
     ├── table5_cells.csv
-    └── nb_glmm_vpc.csv
+    ├── nb_glmm_vpc.csv
+    │
+    │   recorded hospital attributes (25)
+    ├── attribute_coverage.csv
+    ├── attribute_marginal_eta2.csv
+    ├── attribute_conditional_eta2.csv
+    ├── attribute_permutation.csv
+    └── attribute_profiles.csv
 ```
 
 Numbers in the tree refer to the script table above. Where a quantity is produced
