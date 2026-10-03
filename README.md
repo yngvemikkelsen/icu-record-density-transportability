@@ -282,7 +282,7 @@ window. Estimates from different sets are not interchangeable.
 │   ├── Figure4_pooled_threshold.*             184 dpi, restricted cohort
 │   └── Figure5_flow.*                         184 dpi, participant flow
 │
-└── results/                               65 CSVs, aggregate only
+└── results/                               64 CSVs, aggregate only
     ├── README.md                              maps every file to its script
     │
     │   exposure composition (1, 2, 13)
