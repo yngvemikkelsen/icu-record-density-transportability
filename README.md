@@ -114,7 +114,9 @@ extractions to parquet, so reruns after the first are fast.
 | 22 | `paper17_tables_final.py` | Every Table 3 and Table 5 cell recomputed in one run so each has a single provenance. **Supersedes the table outputs of 7, 11 and 15.** |
 | 23 | `paper17_nb_glmm.py` | Fitted negative binomial GLMM, log link, random intercepts for hospital and unit within hospital, dispersion estimated jointly, maximum likelihood by Laplace approximation |
 | 24 | `paper17_revision_figures.py` | Figures 2, 3, 4 on the restricted cohort and Figure 5, at 184 dpi |
-| 25 | `paper17_hospital_attributes.py` | Whether the hospital attributes eICU-CRD records (bed-capacity category, teaching status, region) account for the site component, with a hospital-level permutation null |
+| 25 | `paper17_hospital_attributes.py` | Whether the hospital attributes eICU-CRD records (bed-capacity category, teaching status, region) account for the site component, with a 10,000-permutation hospital-level null, P values on the plus-one estimator and Bonferroni correction across all ten tests |
+| 26 | `paper17_vpc_ci.py` | Hospital and unit-within-hospital variance partition coefficients with bias-corrected and accelerated bootstrap intervals, from a closed-form evaluation of the restricted maximum likelihood objective for the nested random-intercept model, revalidated against `statsmodels` MixedLM on both cohorts |
+| 27 | `paper17_count_models.py` | Negative binomial mixed model for gaps exceeding 30 minutes and a hurdle negative binomial model for gaps exceeding 2 hours; latent- and observed-scale variance partitions for every count model, the observed scale in closed form and by Monte Carlo; profile-likelihood intervals |
 
 Three further scripts document the severity-harmonisation attempt reported in the
 manuscript as unsuccessful. They are included because the negative result is part
@@ -280,7 +282,7 @@ window. Estimates from different sets are not interchangeable.
 │   ├── Figure4_pooled_threshold.*             184 dpi, restricted cohort
 │   └── Figure5_flow.*                         184 dpi, participant flow
 │
-└── results/                               60 CSVs, aggregate only
+└── results/                               63 CSVs, aggregate only
     ├── README.md                              maps every file to its script
     │
     │   exposure composition (1, 2, 13)
@@ -361,7 +363,14 @@ window. Estimates from different sets are not interchangeable.
     ├── attribute_marginal_eta2.csv
     ├── attribute_conditional_eta2.csv
     ├── attribute_permutation.csv
-    └── attribute_profiles.csv
+    ├── attribute_profiles.csv
+    │
+    │   variance partition intervals (26)
+    ├── vpc_ci.csv
+    ├── vpc_validation.csv
+    │
+    │   count and hurdle models (27)
+    └── count_models.csv
 ```
 
 Numbers in the tree refer to the script table above. Where a quantity is produced

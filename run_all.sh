@@ -161,7 +161,7 @@ $R "$S/paper17_tables_final.py" \
     --out-dir "$OUT/revision_tables"
 
 # Do the hospital attributes eICU-CRD records account for the site component?
-# 500 permutations per metric per cohort; allow ~10 min.
+# 10,000 permutations per metric per cohort; allow ~3 h.
 $R "$S/paper17_hospital_attributes.py" \
     --eicu-nc-cache "$NC" --eicu-root "$EICU" \
     --out-dir "$OUT/hospital_attributes"
@@ -170,6 +170,24 @@ $R "$S/paper17_hospital_attributes.py" \
 $R "$S/paper17_nb_glmm.py" --simulate
 $R "$S/paper17_nb_glmm.py" \
     --eicu-nc-cache "$NC" --eicu-root "$EICU" --out-dir "$OUT/nb_glmm"
+
+# Intervals for every Gaussian variance partition coefficient in Table 3. The
+# closed-form REML evaluation is revalidated against statsmodels MixedLM before
+# it is used; vpc_validation.csv is that comparison, and needs statsmodels
+# importable, so drop --offline for this step if the wheel is not cached. ~3 h.
+$R "$S/paper17_vpc_ci.py" \
+    --mimic-cache "$MC" --mimic-per-stay "$PER_STAY" --eicu-nc-cache "$NC" \
+    --eicu-root "$EICU" --out-dir "$OUT/vpc_ci"
+
+# Negative binomial model for gaps >30 min, hurdle model for gaps >2 h, and
+# observed-scale variance partitions. --profile-all gives the profile-likelihood
+# intervals for every count model, which Table 3 and its note report; without
+# it only restricted record count is bounded. Run --selftest first; it needs no
+# data.
+$R "$S/paper17_count_models.py" --selftest
+$R "$S/paper17_count_models.py" \
+    --eicu-nc-cache "$NC" --eicu-root "$EICU" --out-dir "$OUT/count_models" \
+    --profile-all
 
 # ---------------------------------------------------------------------------
 # 6. Figures
@@ -200,4 +218,6 @@ echo "  Threshold, restricted   $OUT/revision_stage4/threshold_restricted.csv"
 echo "  Floor sweep         $OUT/revision_stage3/plausibility_thresholds.csv"
 echo "  NB GLMM             $OUT/nb_glmm/nb_glmm_vpc.csv"
 echo "  Hospital attributes $OUT/hospital_attributes/attribute_permutation.csv"
+echo "  VPC intervals       $OUT/vpc_ci/vpc_ci.csv"
+echo "  Count models        $OUT/count_models/count_models.csv"
 echo "  Figures 2-5         $OUT/revision_figures/"

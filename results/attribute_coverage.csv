@@ -1,0 +1,7 @@
+cohort,attribute,n_hospitals,n_populated,share_populated,n_levels
+unrestricted,Bed capacity category,68,60,0.8823529411764706,3
+unrestricted,Teaching status,68,68,1.0,2
+unrestricted,Region,68,65,0.9558823529411765,4
+restricted,Bed capacity category,60,52,0.8666666666666667,3
+restricted,Teaching status,60,60,1.0,2
+restricted,Region,60,57,0.95,4

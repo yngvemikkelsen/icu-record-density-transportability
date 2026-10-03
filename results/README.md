@@ -22,6 +22,16 @@ Expected contents, by producing script:
 | `table5_components.csv` | `paper17_table5_harmonise.py` |
 | `mimic_sofa_coverage.csv`, `eicu_sofa_coverage.csv` | `paper17_probe_sofa_coverage.py` |
 | `acuity_coupling_r2.csv`, `residual_mortality_v2.csv` | `bcst_residualization_v2.py` |
+| `duplicate_timestamps.csv`, `covariate_missingness.csv` | `paper17_stage1_checks.py` |
+| `glmm_count_vpc.csv` | `paper17_stage2_glmm.py` |
+| `excluded_stay_profile.csv`, `plausibility_thresholds.csv`, `cross_variable_hospital_medians.csv` | `paper17_stage3_exclusions.py` |
+| `eta2_restricted.csv`, `vpc_restricted.csv`, `threshold_restricted.csv` | `paper17_stage4_restricted.py` |
+| `hospital_medians.csv`, `ss_order_sensitivity.csv` | `paper17_stage5_remaining.py` |
+| `table3_cells.csv`, `table5_cells.csv` | `paper17_tables_final.py` |
+| `nb_glmm_vpc.csv` | `paper17_nb_glmm.py` |
+| `attribute_coverage.csv`, `attribute_marginal_eta2.csv`, `attribute_conditional_eta2.csv`, `attribute_permutation.csv`, `attribute_profiles.csv` | `paper17_hospital_attributes.py` |
+| `vpc_ci.csv`, `vpc_validation.csv` | `paper17_vpc_ci.py` |
+| `count_models.csv` | `paper17_count_models.py` |
 
 Do not commit the parquet caches (`hr_timestamps.parquet`,
 `nursecharting_offsets.parquet`, `vitalperiodic_offsets.parquet`,

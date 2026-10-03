@@ -1,0 +1,10 @@
+level,attribute,n_hospitals,n_stays,median_count,median_interval
+100 - 249,Bed capacity category,13,10578,35.0,30.0
+250 - 499,Bed capacity category,20,19305,35.0,32.5
+>= 500,Bed capacity category,19,49486,29.0,60.0
+f,Teaching status,49,57017,33.0,44.0
+t,Teaching status,11,31543,29.0,60.0
+Midwest,Region,15,26357,38.0,30.0
+Northeast,Region,4,7800,26.0,60.0
+South,Region,21,31096,27.0,60.0
+West,Region,17,19193,36.0,30.0

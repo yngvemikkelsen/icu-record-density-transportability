@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # /// script
 # requires-python = ">=3.11"
-# dependencies = ["pandas", "numpy", "statsmodels", "pyarrow"]
+# dependencies = ["pandas", "numpy", "pyarrow"]
 # ///
 """
 Paper 17, editorial comment 6: how much of the hospital component is explained
@@ -84,6 +84,15 @@ FLOOR = 12
 
 METRICS = ["n_records", "median_interval_min", "max_interval_min",
            "n_gaps_gt2h", "frac_time_in_gaps"]
+# The correction family is every test performed: the five metrics in the
+# restricted primary cohort and the same five in the unrestricted cohort,
+# ten in all. An earlier draft treated only the restricted cohort as the
+# family, giving a threshold of .010. That was abandoned: the observed
+# record-count P value of .006 falls between .005 and .010, so narrowing
+# the family after seeing the value would be indistinguishable from
+# choosing the family that preserves the result.
+N_TESTS = 2 * len(METRICS)
+BONFERRONI = 0.05 / N_TESTS
 LABEL = {"n_records": "Record count",
          "median_interval_min": "Median interval",
          "max_interval_min": "Longest interval",
@@ -247,7 +256,7 @@ def conditional(d, attrs, out_dir):
     print("  recorded.")
 
 
-def permutation(d, attrs, out_dir, n_perm=500, seed=17):
+def permutation(d, attrs, out_dir, n_perm=10000, seed=17):
     """Null distribution of the explained share.
 
     Conditioning removes one parameter per attribute level from a between-
@@ -291,16 +300,31 @@ def permutation(d, attrs, out_dir, n_perm=500, seed=17):
                 null.append((before - eta2(r, hid)) / before)
             null = np.array([x for x in null if np.isfinite(x)])
             med, p95 = np.median(null), np.percentile(null, 95)
-            pval = float((null >= obs).mean())
+            # Add-one (Davison-Hinkley) estimator: the proportion
+            # (null >= obs).mean() can return exactly 0, which is not an
+            # attainable P value. With the +1 the minimum is
+            # 1/(n_perm+1), which is what a permutation test of this size
+            # can actually resolve, and the test has correct size.
+            pval = float((1.0 + (null >= obs).sum()) / (1.0 + len(null)))
             print(f"    {LABEL[m]:30s} {obs:9.1%} {med:9.1%} {p95:9.1%} "
                   f"{pval:7.3f}")
             rows.append({"cohort": cohort, "metric": LABEL[m],
                          "observed_share": obs, "null_median": med,
                          "null_p95": p95, "p_value": pval,
                          "excess_over_null": obs - med,
-                         "n_hospitals": nh, "n_perm": len(null)})
+                         "n_hospitals": nh, "n_perm": len(null),
+                         "p_min_attainable": 1.0 / (1.0 + len(null)),
+                         "bonferroni_threshold_family": BONFERRONI})
     pd.DataFrame(rows).to_csv(out_dir / "attribute_permutation.csv",
                               index=False)
+    print(f"\n  P values use (1 + #{{null >= obs}}) / (1 + {n_perm}), so the")
+    print(f"  minimum attainable value is {1.0 / (1.0 + n_perm):.5f}.")
+    print(f"  The correction family is all {N_TESTS} tests, the five metrics")
+    print("  in each of the two cohorts, giving a Bonferroni threshold of")
+    print(f"  {BONFERRONI:.3f}. The unrestricted cohort is nested inside the")
+    print("  restricted one, but both sets of tests are reported, so both are")
+    print("  corrected together rather than one being treated as a separate")
+    print("  sensitivity analysis.")
     print("\n  Report the observed share against the null median. The excess")
     print("  over the null, not the raw share, is what the recorded attributes")
     print("  actually account for.")
@@ -332,7 +356,7 @@ def main():
     ap.add_argument("--eicu-nc-cache", required=True, type=Path)
     ap.add_argument("--eicu-root", required=True, type=Path)
     ap.add_argument("--floor", type=int, default=FLOOR)
-    ap.add_argument("--n-perm", type=int, default=500)
+    ap.add_argument("--n-perm", type=int, default=10000)
     ap.add_argument("--out-dir", type=Path, default=Path("./hospital_attributes"))
     a = ap.parse_args()
     a.out_dir.mkdir(parents=True, exist_ok=True)
