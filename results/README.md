@@ -7,7 +7,7 @@ Expected contents, by producing script:
 
 | File | From |
 |---|---|
-| `per_item_volume.csv`, `charting_hour_by_item.csv`, `subset_reconstruction.csv` | `paper17_diagnose_exposure.py` |
+| `per_item_volume.csv`, `charting_hour_by_item.csv`, `charting_hour_concentration.csv`, `subset_reconstruction.csv` | `paper17_diagnose_exposure.py` |
 | `count_reconciliation.csv` | `paper17_reconcile_counts.py` |
 | `unit_profiles.csv`, `unit_transport_eta2.csv`, `charting_hour_by_unit.csv` | `paper17_unit_documentation_profile.py` |
 | `vitalperiodic_transport_eta2.csv`, `nursecharting_transport_eta2.csv` | `paper17_eicu_documentation_profile.py` |

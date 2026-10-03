@@ -6,7 +6,7 @@ Analysis code for:
 > Density Across MIMIC-IV and eICU-CRD: Retrospective Data Quality Study.
 > *JMIR Medical Informatics* (under revision, 2026).
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22295700.svg)](https://doi.org/10.5281/zenodo.22295700)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23122543.svg)](https://doi.org/10.5281/zenodo.23122543)
 
 ---
 
@@ -282,12 +282,13 @@ window. Estimates from different sets are not interchangeable.
 │   ├── Figure4_pooled_threshold.*             184 dpi, restricted cohort
 │   └── Figure5_flow.*                         184 dpi, participant flow
 │
-└── results/                               63 CSVs, aggregate only
+└── results/                               65 CSVs, aggregate only
     ├── README.md                              maps every file to its script
     │
     │   exposure composition (1, 2, 13)
     ├── per_item_volume.csv
     ├── charting_hour_by_item.csv
+    ├── charting_hour_concentration.csv
     ├── subset_reconstruction.csv
     ├── count_reconciliation.csv
     │
