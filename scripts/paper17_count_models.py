@@ -4,7 +4,24 @@
 # dependencies = ["pandas", "numpy", "scipy", "pyarrow"]
 # ///
 """
-Paper 17 revision, editorial comments 2, 3 and the count part of 4.
+Paper 17 revision, editorial comments 2, 3 and the count part of 4, and the
+third-round comments 5 and 7.
+
+COMMENT 7, third round — the Poisson comparison
+The manuscript sets a Poisson hospital coefficient of 0.927 beside the
+negative binomial 0.728.  The Poisson value came from the earlier stage-2
+implementation, whose own negative binomial fit of the same quantity returned
+0.776, so the two sides of the printed comparison did not come from one
+routine.  The Poisson is now fitted here, on the same rows, the same cluster
+codes and the same estimator as the negative binomial, and the log-likelihood
+difference between the two is reported.
+
+COMMENT 5, third round — is the second count outcome independent?
+The count of intervals exceeding 30 minutes carries half of the principal
+claim.  Its correlation with record count is reported per cohort, as Pearson
+with r-squared and as Spearman, and written to metric_correlations.csv, so a
+reader can judge how far it is a second outcome rather than a restatement of
+the first.
 
 COMMENT 2 — count models for the gap metrics
 The first round asked for generalized linear mixed models for the count
@@ -67,6 +84,16 @@ Usage
       --eicu-root     ~/physionet.org/files/eicu-crd/2.0 \
       --out-dir       ~/bcst/count_models \
       [--profile-ci] [--profile-all]
+
+Outputs
+  count_models.csv          one row per fitted model, now including the
+                            Poisson comparison rows (part = "poisson
+                            comparison") with loglik_gain_nb_over_poisson
+  metric_correlations.csv   record count against intervals >30 min, per cohort
+
+Reproducing the reported values: use --profile-all.  Every negative binomial,
+zero-truncated and Bernoulli result is unchanged from the version that
+produced them; only the Poisson family and the correlation are added.
 """
 
 import argparse
@@ -80,6 +107,7 @@ from scipy import sparse
 from scipy.optimize import minimize
 from scipy.sparse.linalg import splu
 from scipy.special import expit, gammaln
+from scipy.stats import pearsonr, spearmanr
 
 warnings.filterwarnings("ignore")
 
@@ -125,14 +153,30 @@ def ztnb_terms(y, eta, alpha):
     return ll - np.log(one_m).sum(), g - dq, np.maximum(w + d2q, 1e-10)
 
 
+def pois_terms(y, eta, alpha=None):
+    """Poisson log-likelihood with first and second derivatives wrt eta.
+
+    The equidispersed case.  It is fitted with this routine, rather than taken
+    from the earlier stage-2 implementation, so that the Poisson and negative
+    binomial coefficients the manuscript sets side by side come from one
+    estimator.
+    """
+    mu = np.exp(eta)
+    ll = y * eta - mu - gammaln(y + 1.0)
+    return ll.sum(), y - mu, np.maximum(mu, 1e-10)
+
+
 def bern_terms(y, eta, alpha=None):
     p = expit(eta)
     return (float(np.sum(y * eta - np.logaddexp(0.0, eta))), y - p,
             np.maximum(p * (1.0 - p), 1e-10))
 
 
-FAMILY = {"nb": nb_terms, "ztnb": ztnb_terms, "bernoulli": bern_terms}
-NPAR = {"nb": 4, "ztnb": 4, "bernoulli": 3}
+FAMILY = {"nb": nb_terms, "ztnb": ztnb_terms, "bernoulli": bern_terms,
+          "poisson": pois_terms}
+NPAR = {"nb": 4, "ztnb": 4, "bernoulli": 3, "poisson": 3}
+# Families with no dispersion parameter, so theta is (b0, ln s_h, ln s_u).
+THREE_PAR = ("bernoulli", "poisson")
 
 
 # ================================================================ fitting ===
@@ -149,7 +193,7 @@ def design(n, hosp_idx, unit_idx):
 def laplace(theta, y, Z, q_h, q_u, family, tol=1e-8, maxit=80):
     """Laplace-approximated log-likelihood at theta = (b0, ln s_h, ln s_u[, ln a])."""
     terms = FAMILY[family]
-    if family == "bernoulli":
+    if family in THREE_PAR:
         b0, ls_h, ls_u = theta
         alpha = None
     else:
@@ -217,7 +261,7 @@ def fit(y, hosp_idx, unit_idx, family="nb", label="", x0=None, quiet=True,
     """
     n = len(y)
     Z, q_h, q_u = design(n, hosp_idx, unit_idx)
-    bern = family == "bernoulli"
+    bern = family in THREE_PAR
     t0 = time.time()
 
     def nll_factory(fa):
@@ -231,6 +275,11 @@ def fit(y, hosp_idx, unit_idx, family="nb", label="", x0=None, quiet=True,
         return nll
 
     def starts():
+        if family == "poisson":
+            b = np.log(max(float(y.mean()), 0.5))
+            return [np.array([b, np.log(sh), np.log(su)])
+                    for sh, su in ((0.35, 0.20), (0.75, 0.35), (0.15, 0.10),
+                                   (1.20, 0.50))]
         if bern:
             p = float(np.clip(y.mean(), 1e-4, 1 - 1e-4))
             b = np.log(p / (1 - p))
@@ -308,6 +357,19 @@ def fit(y, hosp_idx, unit_idx, family="nb", label="", x0=None, quiet=True,
 def vpcs(o):
     """Latent-scale VPCs, and the exact observed-scale VPCs in closed form."""
     s_h2, s_u2 = o["var_hospital"], o["var_unit"]
+    if o["family"] == "poisson":
+        # Equidispersed: the latent level-1 variance loses the alpha term and
+        # the observed-scale residual loses its quadratic term.
+        mu = o["mean_outcome"]
+        lvl1 = float(np.log1p(1.0 / mu))
+        tot = s_h2 + s_u2 + lvl1
+        V_h, V_u, V_r = observed_components(o["intercept"], s_h2, s_u2, 0.0)
+        T = V_h + V_u + V_r
+        return {"level1_var": lvl1, "mu_used": mu,
+                "vpc_hospital_latent": s_h2 / tot,
+                "vpc_unit_latent": s_u2 / tot,
+                "vpc_hospital_observed": float(V_h / T),
+                "vpc_unit_observed": float(V_u / T)}
     if o["family"] == "bernoulli":
         lvl1 = np.pi ** 2 / 3.0
         tot = s_h2 + s_u2 + lvl1
@@ -360,7 +422,8 @@ def eta2_on_simulated(o, units_per=2, per_unit=700, n_rep=30, seed=17):
     """What eta-squared returns on data simulated from the fitted model, at the
     cluster sizes of the real cohort.  Upward biased by construction."""
     rng = np.random.default_rng(seed)
-    r = 1.0 / o["alpha"]
+    pois = o["family"] == "poisson"
+    r = np.nan if pois else 1.0 / o["alpha"]
     hs, us = [], []
     for _ in range(n_rep):
         y, hi, ui = [], [], []
@@ -370,7 +433,8 @@ def eta2_on_simulated(o, units_per=2, per_unit=700, n_rep=30, seed=17):
             for _ in range(units_per):
                 c = rng.normal(0, np.sqrt(o["var_unit"]))
                 mu = np.exp(o["intercept"] + a + c)
-                y.append(rng.poisson(rng.gamma(r, mu / r, per_unit)))
+                y.append(rng.poisson(np.full(per_unit, mu)) if pois
+                         else rng.poisson(rng.gamma(r, mu / r, per_unit)))
                 hi.append(np.full(per_unit, h))
                 ui.append(np.full(per_unit, k))
                 k += 1
@@ -400,7 +464,7 @@ def profile_ci(y, hosp_idx, unit_idx, o, which="hospital", tol=2e-3,
     solution, so the inner optimisations are short.
     """
     family = o["family"]
-    if family == "bernoulli":
+    if family in THREE_PAR:
         return np.nan, np.nan
     n = len(y)
     Z, q_h, q_u = design(n, hosp_idx, unit_idx)
@@ -563,11 +627,15 @@ def show(o, mc=None, e2=None):
               "(Poisson) case at")
         print("        this level; report it that way, not as a negative "
               "binomial with alpha = 0. ***")
-    tail = (f"   alpha {o['alpha']:.4f}" if o["family"] != "bernoulli" else "")
+    tail = ("" if o["family"] in THREE_PAR
+            else f"   alpha {o['alpha']:.4f}")
     print(f"    hospital variance {o['var_hospital']:.4f}   "
           f"unit variance {o['var_unit']:.4f}{tail}")
     if o["family"] == "bernoulli":
         print(f"    level-1 variance  {o['level1_var']:.4f}  = pi^2/3")
+    elif o["family"] == "poisson":
+        print(f"    level-1 variance  {o['level1_var']:.4f}  "
+              f"= ln(1 + 1/mu), mu = {o['mu_used']:.4f}")
     else:
         print(f"    level-1 variance  {o['level1_var']:.4f}  "
               f"= ln(1 + 1/mu + alpha), mu = {o['mu_used']:.4f}")
@@ -700,6 +768,27 @@ def selftest(profile=False):
           f"{np.mean(eh):+.4f}, unit {np.mean(eu):+.4f}")
 
     print("\n" + "=" * 78)
+    print("SELF-TEST 2b — the Poisson GLMM recovers the realised variances")
+    print("=" * 78)
+    print("  Equidispersed data, so the Poisson is the correct family here and")
+    print("  must recover the drawn variances.  This checks the new family on")
+    print("  data it fits, before it is used on data it does not.")
+    TP = dict(b0=np.log(6.0), s_h=0.42, s_u=0.20)
+    print(f"\n  {'rep':>3s} {'realised h':>11s} {'fitted h':>9s} "
+          f"{'realised u':>11s} {'fitted u':>9s} {'s':>6s}")
+    ph, pu = [], []
+    for rep in range(3):
+        y, hi, ui, rh, ru = sim_nb(40, 2, 350, TP["b0"], TP["s_h"],
+                                   TP["s_u"], 1e-6, 200 + rep)
+        o = fit(y, hi, ui, "poisson", "")
+        ph.append(o["var_hospital"] - rh)
+        pu.append(o["var_unit"] - ru)
+        print(f"  {rep:3d} {rh:11.4f} {o['var_hospital']:9.4f} "
+              f"{ru:11.4f} {o['var_unit']:9.4f} {o['fit_seconds']:6.1f}")
+    print(f"\n  mean error against the realised variance: hospital "
+          f"{np.mean(ph):+.4f}, unit {np.mean(pu):+.4f}")
+
+    print("\n" + "=" * 78)
     print("SELF-TEST 3 — the two hurdle parts")
     print("=" * 78)
     print("  Both parts are checked over several replicates against the")
@@ -771,7 +860,7 @@ def main():
     a.out_dir.mkdir(parents=True, exist_ok=True)
 
     eb, er = load(a)
-    rows = []
+    rows, corr_rows = [], []
     for cohort, d in (("restricted", er), ("unrestricted", eb)):
         hi, ui = codes(d)
         print("\n" + "=" * 78)
@@ -804,6 +893,53 @@ def main():
                     lo, up = profile_ci(y, hi, ui, o, w)
                     rec[f"vpc_{w}_lo"], rec[f"vpc_{w}_hi"] = lo, up
             rows.append(rec)
+
+            if col == "n_records":
+                # The Poisson comparison, on the same rows, the same cluster
+                # codes and the same estimator as the negative binomial above.
+                # The manuscript previously took this value from the stage-2
+                # implementation, which also returned a different negative
+                # binomial coefficient for the same quantity, so the two sides
+                # of the printed comparison did not come from one routine.
+                op = fit(y, hi, ui, "poisson", f"{name} ({cohort}), Poisson")
+                show(op, e2=eta2_on_simulated(op))
+                print("    The Poisson assumes level-1 variance equal to the "
+                      "mean, so it")
+                print("    understates it for overdispersed counts and pushes "
+                      "the hospital")
+                print("    share up.  Reported only as the comparison the "
+                      "negative binomial")
+                print("    is preferred over.")
+                dlt = o["loglik"] - op["loglik"]
+                print(f"    log-likelihood advantage of the negative binomial "
+                      f"over the Poisson: {dlt:,.1f}")
+                recp = {k: v for k, v in op.items() if k != "theta"}
+                recp.update({"cohort": cohort, "metric": name,
+                             "part": "poisson comparison",
+                             "loglik_gain_nb_over_poisson": dlt})
+                rows.append(recp)
+
+        # Editorial comment 5: the count of intervals exceeding 30 minutes
+        # now carries half of the principal claim, so how far it is an
+        # independent second outcome has to be reportable rather than assumed.
+        a1 = d["n_records"].to_numpy(float)
+        a2 = d["n_gaps_gt30m"].to_numpy(float)
+        rp, pp = pearsonr(a1, a2)
+        rs, ps = spearmanr(a1, a2)
+        print(f"\n  Record count against intervals >30 min, {cohort} cohort:")
+        print(f"    Pearson r  {rp:+.3f} (r^2 {rp ** 2:.3f}, P={pp:.3g})")
+        print(f"    Spearman rho {rs:+.3f} (P={ps:.3g})")
+        print(f"    so {rp ** 2:.1%} of the linear variance in one is shared "
+              f"with the other;")
+        print("    the remainder is what makes it a second outcome rather "
+              "than a restatement.")
+        corr_rows.append({"cohort": cohort, "n_stays": int(len(d)),
+                          "x": "n_records", "y": "n_gaps_gt30m",
+                          "pearson_r": float(rp), "pearson_r2": float(rp ** 2),
+                          "pearson_p": float(pp), "spearman_rho": float(rs),
+                          "spearman_p": float(ps),
+                          "mean_n_records": float(a1.mean()),
+                          "mean_n_gaps_gt30m": float(a2.mean())})
 
         y = d["n_gaps_gt2h"].to_numpy(float)
         print(f"\n  Gaps >2 h is {np.mean(y == 0):.1%} zeros: hurdle "
@@ -844,6 +980,8 @@ def main():
             rows.append(rec)
 
     pd.DataFrame(rows).to_csv(a.out_dir / "count_models.csv", index=False)
+    pd.DataFrame(corr_rows).to_csv(a.out_dir / "metric_correlations.csv",
+                                   index=False)
     print(f"\n-> {a.out_dir}")
 
 

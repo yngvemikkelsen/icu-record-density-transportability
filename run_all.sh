@@ -185,6 +185,9 @@ $R "$S/paper17_vpc_ci.py" \
 # it only restricted record count is bounded. Run --selftest first; it needs no
 # data.
 $R "$S/paper17_count_models.py" --selftest
+# Also fits the Poisson comparison through the same routine, so the two
+# families reported together come from one estimator, and writes the record
+# count against intervals >30 min correlation to metric_correlations.csv.
 $R "$S/paper17_count_models.py" \
     --eicu-nc-cache "$NC" --eicu-root "$EICU" --out-dir "$OUT/count_models" \
     --profile-all
@@ -220,4 +223,5 @@ echo "  NB GLMM             $OUT/nb_glmm/nb_glmm_vpc.csv"
 echo "  Hospital attributes $OUT/hospital_attributes/attribute_permutation.csv"
 echo "  VPC intervals       $OUT/vpc_ci/vpc_ci.csv"
 echo "  Count models        $OUT/count_models/count_models.csv"
+echo "  Metric correlation  $OUT/count_models/metric_correlations.csv"
 echo "  Figures 2-5         $OUT/revision_figures/"

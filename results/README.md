@@ -31,7 +31,9 @@ Expected contents, by producing script:
 | `nb_glmm_vpc.csv` | `paper17_nb_glmm.py` |
 | `attribute_coverage.csv`, `attribute_marginal_eta2.csv`, `attribute_conditional_eta2.csv`, `attribute_permutation.csv`, `attribute_profiles.csv` | `paper17_hospital_attributes.py` |
 | `vpc_ci.csv`, `vpc_validation.csv` | `paper17_vpc_ci.py` |
-| `count_models.csv` | `paper17_count_models.py` |
+| `count_models.csv`, `metric_correlations.csv` | `paper17_count_models.py` |
+
+`glmm_count_vpc.csv` is superseded. Its Poisson and negative binomial coefficients come from `paper17_stage2_glmm.py`, an earlier routine; the values reported in the manuscript are those in `count_models.csv`, fitted by `paper17_count_models.py`. It is retained for provenance and should not be read as the reported estimates.
 
 Do not commit the parquet caches (`hr_timestamps.parquet`,
 `nursecharting_offsets.parquet`, `vitalperiodic_offsets.parquet`,

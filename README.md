@@ -6,7 +6,9 @@ Analysis code for:
 > Density Across MIMIC-IV and eICU-CRD: Retrospective Data Quality Study.
 > *JMIR Medical Informatics* (under revision, 2026).
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23122543.svg)](https://doi.org/10.5281/zenodo.23122543)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21901637.svg)](https://doi.org/10.5281/zenodo.21901637)
+
+The badge resolves to the most recent release. Individual versions have their own DOIs on Zenodo.
 
 ---
 
@@ -116,7 +118,7 @@ extractions to parquet, so reruns after the first are fast.
 | 24 | `paper17_revision_figures.py` | Figures 2, 3, 4 on the restricted cohort and Figure 5, at 184 dpi |
 | 25 | `paper17_hospital_attributes.py` | Whether the hospital attributes eICU-CRD records (bed-capacity category, teaching status, region) account for the site component, with a 10,000-permutation hospital-level null, P values on the plus-one estimator and Bonferroni correction across all ten tests |
 | 26 | `paper17_vpc_ci.py` | Hospital and unit-within-hospital variance partition coefficients with bias-corrected and accelerated bootstrap intervals, from a closed-form evaluation of the restricted maximum likelihood objective for the nested random-intercept model, revalidated against `statsmodels` MixedLM on both cohorts |
-| 27 | `paper17_count_models.py` | Negative binomial mixed model for gaps exceeding 30 minutes and a hurdle negative binomial model for gaps exceeding 2 hours; latent- and observed-scale variance partitions for every count model, the observed scale in closed form and by Monte Carlo; profile-likelihood intervals |
+| 27 | `paper17_count_models.py` | Negative binomial mixed model for gaps exceeding 30 minutes and a hurdle negative binomial model for gaps exceeding 2 hours; latent- and observed-scale variance partitions for every count model, the observed scale in closed form and by Monte Carlo; profile-likelihood intervals; the Poisson comparison fitted by the same routine; and the correlation between record count and the count of intervals exceeding 30 minutes |
 
 Three further scripts document the severity-harmonisation attempt reported in the
 manuscript as unsuccessful. They are included because the negative result is part
@@ -282,7 +284,7 @@ window. Estimates from different sets are not interchangeable.
 │   ├── Figure4_pooled_threshold.*             184 dpi, restricted cohort
 │   └── Figure5_flow.*                         184 dpi, participant flow
 │
-└── results/                               64 CSVs, aggregate only
+└── results/                               65 CSVs, aggregate only
     ├── README.md                              maps every file to its script
     │
     │   exposure composition (1, 2, 13)
@@ -371,7 +373,8 @@ window. Estimates from different sets are not interchangeable.
     ├── vpc_validation.csv
     │
     │   count and hurdle models (27)
-    └── count_models.csv
+    ├── count_models.csv
+    └── metric_correlations.csv
 ```
 
 Numbers in the tree refer to the script table above. Where a quantity is produced
