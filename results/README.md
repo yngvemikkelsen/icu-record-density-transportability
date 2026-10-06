@@ -33,6 +33,8 @@ Expected contents, by producing script:
 | `vpc_ci.csv`, `vpc_validation.csv` | `paper17_vpc_ci.py` |
 | `count_models.csv`, `metric_correlations.csv` | `paper17_count_models.py` |
 
+`covariate_missingness.csv` carries an `n_entering` column giving the number of stays entering each model, so the rates can be checked against the manuscript denominators without re-deriving them. The eICU-CRD rows are computed on the 177,198 unit stays present in both source streams, which is the frame the admission-hour models are fitted on, not the 181,731-stay nurse-stream frame.
+
 `glmm_count_vpc.csv` is superseded. Its Poisson and negative binomial coefficients come from `paper17_stage2_glmm.py`, an earlier routine; the values reported in the manuscript are those in `count_models.csv`, fitted by `paper17_count_models.py`. It is retained for provenance and should not be read as the reported estimates.
 
 Do not commit the parquet caches (`hr_timestamps.parquet`,

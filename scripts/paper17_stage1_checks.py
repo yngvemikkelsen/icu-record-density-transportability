@@ -31,6 +31,18 @@ the editor is right that the rates should be stated.
 This reports per-covariate missingness and the cumulative complete-case loss, so
 the response can give numbers rather than a description.
 
+FRAME NOTE (2026-10-07)
+-----------------------
+The eICU-CRD admission-hour models are fitted on the unit stays present in BOTH
+source streams, so that the monitor-stream and nurse-stream specifications are
+estimated on identical rows and stream availability cannot confound the
+comparison between them. An earlier version of this script intersected the
+patient table with the nurseCharting cache only, which yields the nurse-stream
+frame (181,731 stays) rather than the paired model frame (177,198). The paired
+frame is now built explicitly and the number of stays entering each model is
+written into the output, so the archived file can be checked against the
+manuscript denominator without re-deriving it.
+
 Usage:
   python paper17_stage1_checks.py \
       --mimic-cache ~/bcst/unit_profile/hr_timestamps.parquet \
@@ -120,27 +132,31 @@ def dup_check(df, key, offset_col, label, rows):
 
 def missingness(df, cols, label, out_dir):
     """Per-covariate missingness and cumulative complete-case loss."""
-    print(f"\n  {label}: {len(df):,} stays entering the model")
+    n_entering = len(df)
+    print(f"\n  {label}: {n_entering:,} stays entering the model")
     print(f"    {'covariate':22s} {'missing':>10s} {'share':>9s}")
     print("    " + "-" * 44)
     rows = []
     for c in cols:
         if c not in df.columns:
             print(f"    {c:22s} {'COLUMN ABSENT':>20s}")
-            rows.append({"cohort": label, "covariate": c, "n_missing": None,
-                         "share_missing": None})
+            rows.append({"cohort": label, "covariate": c,
+                         "n_entering": n_entering,
+                         "n_missing": None, "share_missing": None})
             continue
         n = int(df[c].isna().sum())
-        print(f"    {c:22s} {n:>10,} {n / len(df):>9.5f}")
-        rows.append({"cohort": label, "covariate": c, "n_missing": n,
-                     "share_missing": n / len(df)})
+        print(f"    {c:22s} {n:>10,} {n / n_entering:>9.5f}")
+        rows.append({"cohort": label, "covariate": c,
+                     "n_entering": n_entering,
+                     "n_missing": n, "share_missing": n / n_entering})
     present = [c for c in cols if c in df.columns]
     complete = int(df[present].notna().all(axis=1).sum())
-    lost = len(df) - complete
-    print(f"    complete cases: {complete:,} of {len(df):,} "
-          f"(dropped {lost:,}, {lost / len(df):.5f})")
+    lost = n_entering - complete
+    print(f"    complete cases: {complete:,} of {n_entering:,} "
+          f"(dropped {lost:,}, {lost / n_entering:.5f})")
     rows.append({"cohort": label, "covariate": "COMPLETE CASE",
-                 "n_missing": lost, "share_missing": lost / len(df)})
+                 "n_entering": n_entering,
+                 "n_missing": lost, "share_missing": lost / n_entering})
     return rows
 
 
@@ -191,18 +207,34 @@ def main():
     clean = mim.groupby("stay_id").size().rename("n_clean").reset_index()
     m = ps.merge(clean, on="stay_id", how="left")
     m = m.rename(columns={"n_hr_24h": "n_contaminated"})
+    print(f"\n  MIMIC-IV frame: {len(ps):,} stays in the per-stay table; "
+          f"{int(m['n_clean'].isna().sum()):,} with no heart-rate record")
     m = m.dropna(subset=["n_contaminated", "n_clean", "adm_hour"])
     mrows += missingness(
         m, ["age_z", "gender", "n_comorbid_z", "n_chapters_z",
             "anchor_year_group", "careunit"],
         "MIMIC-IV", a.out_dir)
 
+    # ---- eICU-CRD: PAIRED frame, present in both source streams -------------
     pat = pd.read_csv(a.eicu_root / "patient.csv.gz",
                       usecols=["patientunitstayid", "hospitalid", "unittype",
                                "unitdischargeoffset", "age", "gender",
                                "unitadmittime24"])
-    ncc = nc.groupby("patientunitstayid").size().rename("n_clean").reset_index()
-    e = pat.merge(ncc, on="patientunitstayid", how="inner")
+    ncc = nc.groupby("patientunitstayid").size().rename("n_nc").reset_index()
+    vpc = vp.groupby("patientunitstayid").size().rename("n_vp").reset_index()
+
+    n_pat = len(pat)
+    e_nc = pat.merge(ncc, on="patientunitstayid", how="inner")
+    e = e_nc.merge(vpc, on="patientunitstayid", how="inner")
+    print(f"\n  eICU-CRD frame construction")
+    print(f"    patient table                          {n_pat:,}")
+    print(f"    nurse-stream frame alone               {len(e_nc):,}")
+    print(f"    monitor-stream frame alone             "
+          f"{len(pat.merge(vpc, on='patientunitstayid', how='inner')):,}")
+    print(f"    paired frame, present in both streams  {len(e):,} "
+          f"({n_pat - len(e):,} of the patient table not in both)")
+    print(f"    -> the admission-hour models are fitted on the paired frame")
+
     e["age_num"] = pd.to_numeric(e["age"].replace("> 89", "90"),
                                  errors="coerce")
     e["age_z"] = (e["age_num"] - e["age_num"].mean()) / e["age_num"].std()
@@ -210,6 +242,12 @@ def main():
                                    errors="coerce").dt.hour
     mrows += missingness(e, ["age_z", "gender", "unittype", "adm_hour"],
                          "eICU-CRD", a.out_dir)
+
+    keep = ["age_z", "gender", "unittype", "adm_hour"]
+    e_cc = e.dropna(subset=keep)
+    n_window = int((e_cc["unitdischargeoffset"] >= WINDOW_MIN).sum())
+    print(f"    retained stays completing the 24-hour window: {n_window:,}")
+
     pd.DataFrame(mrows).to_csv(a.out_dir / "covariate_missingness.csv",
                                index=False)
 
