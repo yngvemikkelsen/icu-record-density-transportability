@@ -108,7 +108,7 @@ extractions to parquet, so reruns after the first are fast.
 
 | # | Script | Produces |
 |---|---|---|
-| 17 | `paper17_stage1_checks.py` | Duplicate-timestamp burden per stream; per-covariate missingness and complete-case loss for the admission-hour models |
+| 17 | `paper17_stage1_checks.py` | Duplicate-timestamp burden per stream; per-covariate missingness and complete-case loss for the admission-hour models, on the MIMIC-IV heart-rate frame and on the eICU-CRD frame paired across both source streams |
 | 18 | `paper17_stage2_glmm.py` | Latent-scale Poisson and negative binomial variance partitions; sequential eta-squared under all six factor orderings with an order-free last-in contribution |
 | 19 | `paper17_stage3_exclusions.py` | Characteristics of stays excluded by the three-record minimum; hospital variance component across plausibility floors; cross-variable sparseness pattern |
 | 20 | `paper17_stage4_restricted.py` | Variance components with hospital-clustered bootstrap, mixed-model variance partition, and threshold consequence, restricted and unrestricted side by side |
