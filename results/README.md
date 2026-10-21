@@ -32,6 +32,7 @@ Expected contents, by producing script:
 | `attribute_coverage.csv`, `attribute_marginal_eta2.csv`, `attribute_conditional_eta2.csv`, `attribute_permutation.csv`, `attribute_profiles.csv` | `paper17_hospital_attributes.py` |
 | `vpc_ci.csv`, `vpc_validation.csv` | `paper17_vpc_ci.py` |
 | `count_models.csv`, `metric_correlations.csv` | `paper17_count_models.py` |
+| `apache_enrichment.csv` | `paper17_apache_enrichment.py` |
 
 `covariate_missingness.csv` carries an `n_entering` column giving the number of stays entering each model, so the rates can be checked against the manuscript denominators without re-deriving them. The eICU-CRD rows are computed on the 177,198 unit stays present in both source streams, which is the frame the admission-hour models are fitted on, not the 181,731-stay nurse-stream frame.
 
@@ -43,3 +44,5 @@ Do not commit the parquet caches (`hr_timestamps.parquet`,
 `nursecharting_offsets.parquet`, `vitalperiodic_offsets.parquet`,
 `mimic.parquet`, `eicu_nc.parquet`, `eicu_vp.parquet`). They are derived from
 credentialed data and are excluded by `.gitignore`.
+
+`apache_enrichment.csv` records a negative result and is deposited for that reason. The manuscript previously stated that the APACHE physiology table was unavailable for 23% of eICU-CRD stays and that those stays were approximately sixfold enriched in the exposure bottom decile. Neither figure is reproduced by any computation in this repository: the share of stays with no apacheApsVar row is 14.8% on the 200,859-stay patient table and 8.9% to 9.7% on the analysis sets, and the bottom-decile enrichment ranges from 0.84 to 13.2 depending on which set the decile is taken on and whether stays with no nurse-charted record are retained. Both values trace to a docstring in `paper17_probe_sofa_coverage.py` describing the state of the analysis before that probe was written, not to any output. This file reports every frame so the sensitivity is visible rather than a single figure being chosen from it.

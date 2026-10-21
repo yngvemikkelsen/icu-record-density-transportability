@@ -1,0 +1,16 @@
+question,frame,value,pct,manuscript
+APACHE unavailable,whole patient table,29682/200859,14.78,23%
+APACHE unavailable,completed-window set,11797/132900,8.88,23%
+APACHE unavailable,eligible-stay set,10765/119317,9.02,23%
+APACHE unavailable,unrestricted cohort,8871/96518,9.19,23%
+APACHE unavailable,restricted primary cohort,8627/88560,9.74,23%
+bottom-decile enrichment,whole patient table,21.245% vs 10.658%,1.99,30.8% vs 5.1%
+bottom-decile enrichment,completed-window set,8.748% vs 10.364%,0.84,30.8% vs 5.1%
+bottom-decile enrichment,eligible-stay set,15.105% vs 10.398%,1.45,30.8% vs 5.1%
+bottom-decile enrichment,unrestricted cohort,19.671% vs 9.311%,2.11,30.8% vs 5.1%
+bottom-decile enrichment,restricted primary cohort,38.287% vs 7.135%,5.37,30.8% vs 5.1%
+"bottom-decile enrichment, fixed cut",whole patient table,48.427% vs 23.441%,2.07,30.8% vs 5.1%
+"bottom-decile enrichment, fixed cut",completed-window set,22.531% vs 19.684%,1.14,30.8% vs 5.1%
+"bottom-decile enrichment, fixed cut",eligible-stay set,15.105% vs 10.398%,1.45,30.8% vs 5.1%
+"bottom-decile enrichment, fixed cut",unrestricted cohort,12.501% vs 7.790%,1.6,30.8% vs 5.1%
+"bottom-decile enrichment, fixed cut",restricted primary cohort,10.282% vs 0.781%,13.17,30.8% vs 5.1%
