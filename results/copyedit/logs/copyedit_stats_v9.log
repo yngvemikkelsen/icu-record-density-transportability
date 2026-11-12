@@ -1,0 +1,15 @@
+Installed 5 packages in 40ms
+==============================================================================
+  patient 200,859 | apacheApsVar stays 171,177
+==============================================================================
+
+SHARE OF STAYS LACKING apacheApsVar, BY FRAME
+    whole patient table (200,859)                        29,682/200,859 = 14.8%   [manuscript: 23%]
+    completed-window set (132,900)                       11,797/132,900 = 8.9%   [manuscript: 23%]
+    eligible-stay set (119,317)                          10,765/119,317 = 9.0%   [manuscript: 23%]
+    unrestricted cohort (96,518)                         8,871/96,518 = 9.2%   [manuscript: 23%]
+    restricted primary cohort (88,560)                   8,627/88,560 = 9.7%   [manuscript: 23%]
+
+==============================================================================
+5 rows -> /Users/yngve/bcst/copyedit_stats_v9/copyedit_statistics_v9.csv
+==============================================================================

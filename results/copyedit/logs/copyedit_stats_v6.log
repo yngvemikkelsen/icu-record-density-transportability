@@ -1,0 +1,55 @@
+Installed 5 packages in 42ms
+==============================================================================
+A. WHICH FRAME GIVES '26 FOR THE COHORT'?
+==============================================================================
+    eligible-stay set, all 193 hospitals: per-hospital medians median 27 (IQR 12-36)   [manuscript: 26]
+    eligible-stay set, all 193 hospitals: over stays         median 29 (IQR 21-44)   [manuscript: 26]
+    completed-window set, zeros retained: over stays         median 27 (IQR 13-41)   [manuscript: 26]
+    completed-window set, zeros retained: per-hospital medians median 24 (IQR 6-33)   [manuscript: 26]
+    eligibility-sensitivity set, 80 hospitals >=500 completed-window median 28 (IQR 17-42)   [manuscript: 26]
+    whole patient table, zeros retained: over stays          median 23 (IQR 6-35)   [manuscript: 26]
+    whole patient table: per-hospital medians                median 19 (IQR 5-27)   [manuscript: 26]
+    unrestricted cohort: per-hospital medians                median 32 (IQR 25-45)   [manuscript: 26]
+    restricted cohort: per-hospital medians                  median 33 (IQR 27-46)   [manuscript: 26]
+
+==============================================================================
+B. REMAINING COVERAGE FIGURES
+==============================================================================
+  Looking for urine output 49.1%, elective surgery 19.4%,
+  APACHE physiology unavailable 23%.
+
+  severity dir: /Users/yngve/bcst/severity_v3
+    eicu_severity_v3.csv  cols=['patientunitstayid', 'hr_worst', 'map_worst', 'rr_worst', 'temp_worst', 'gcs_worst', 'urine_24h', 'mech_vent_aps']
+    mimic_severity_v3.csv  cols=['stay_id', 'hr_worst', 'map_worst', 'rr_worst', 'temp_worst', 'gcs_worst', 'urine_24h', 'hr_min']
+
+  sofa dir: /Users/yngve/bcst/sofa_probe
+    eicu_drugname_counts.csv  cols=['drugname', 'records']
+    eicu_labname_counts.csv  cols=['labname', 'records']
+    eicu_sofa_coverage.csv  cols=['cohort', 'component', 'coverage', 'median', 'n_records', 'labnames']
+ coverage
+ 0.800357
+ 0.371325
+ 0.845757
+ 0.000000
+ 0.331237
+ 0.000000
+ 0.112646
+    eicu_vasoactive_strings.csv  cols=['drugname', 'records']
+    mimic_candidate_labitems.csv  cols=['component', 'itemid', 'label', 'fluid', 'category']
+    mimic_candidate_vasoactives.csv  cols=['itemid', 'label', 'abbreviation', 'linksto', 'category', 'unitname', 'param_type', 'lownormalvalue']
+    mimic_sofa_coverage.csv  cols=['cohort', 'component', 'coverage', 'median', 'n_records']
+ coverage
+ 0.962396
+ 0.435389
+ 0.968293
+ 0.539774
+ 0.272671
+    mimic_vasoactive_usage.csv  cols=['itemid', 'stays', 'label']
+
+  Denominators, if a share needs converting:
+    MIMIC coverage is on icustays, N = 94,458
+    eICU coverage is on the patient table, N = 200,859
+
+==============================================================================
+9 statistics -> /Users/yngve/bcst/copyedit_stats_v6/copyedit_statistics_v6.csv
+==============================================================================

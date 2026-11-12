@@ -1,0 +1,51 @@
+Installed 5 packages in 37ms
+==============================================================================
+1. EXCLUDED VS RETAINED, ICU LENGTH OF STAY
+==============================================================================
+  MIMIC completed-window: 67,152   [manuscript: 67,224]
+  excluded by 3-record minimum: 12   [manuscript: 84]
+    MIMIC excluded: ICU length of stay (d)                 median 2.17 (IQR 1.46-2.51)   [manuscript: median 6.53]
+    MIMIC retained: ICU length of stay (d)                 median 2.41 (IQR 1.57-4.48)   [manuscript: median 2.41]
+  eICU completed-window: 132,900   [manuscript: 132,900]
+  excluded by 3-record minimum: 13,583   [manuscript: 13,583]
+    eICU excluded: ICU length of stay (d)                  median 2.20 (IQR 1.56-3.87)   [manuscript: median 2.20]
+    eICU retained: ICU length of stay (d)                  median 2.33 (IQR 1.59-4.08)   [manuscript: median 2.33]
+
+==============================================================================
+2. RESTRICTED-COHORT RECORD COUNT
+==============================================================================
+  restricted cohort: 88,560/60   [manuscript: 88,560/60]
+    restricted cohort: records per stay                    median 31 (IQR 24-48)   [manuscript: 26 for the cohort]
+
+==============================================================================
+3. MIMIC-IV ITEM PROFILE, PER-STAY STANDARD DEVIATIONS
+==============================================================================
+  rows for the 3 items: 10,439,144
+  observation 220045: 94,437 stays
+    observation 220045: records per stay                   mean 92.6763 (SD 138.2)   [manuscript: 25.9 / 25.92]
+  alarm high 220046: 93,618 stays
+    alarm high 220046: records per stay                    mean 9.0087 (SD 12.88)   [manuscript: 2.8]
+  alarm low 220047: 93,622 stays
+    alarm low 220047: records per stay                     mean 9.0117 (SD 12.88)   [manuscript: 2.8]
+    pooled 3-item count: records per stay                  mean 110.5397 (SD 161.8)   [manuscript: 31.5 / 31.56]
+  reconstruction frame: 85,210   [manuscript: 85,133]
+    observation item on the reconstruction frame           mean 89.4254 (SD 132)   [manuscript: 25.88]
+
+==============================================================================
+4. GAPS BEYOND 2 HOURS, SHARE OF ZEROS
+==============================================================================
+    restricted cohort: stays with no gap beyond 2 h        65,301/88,560 = 73.7%   [manuscript: 73.7% zeros]
+
+==============================================================================
+5. SEVERITY-COMPONENT COVERAGE, AS n/N
+==============================================================================
+  Re-run paper17_probe_sofa_coverage.py and read its printed
+  'n_stays' for each database; coverage x n_stays is the numerator.
+  Reported here from the archived shares against the cohort the
+  probe uses, so the denominator is stated rather than inferred:
+  mimic_sofa_coverage.csv not alongside the script; skipped
+  eicu_sofa_coverage.csv not alongside the script; skipped
+
+==============================================================================
+11 statistics -> /Users/yngve/bcst/copyedit_stats_v3/copyedit_statistics_v3.csv
+==============================================================================

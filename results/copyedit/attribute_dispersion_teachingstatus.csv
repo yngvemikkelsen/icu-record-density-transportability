@@ -1,0 +1,3 @@
+teachingstatus,n_hospitals,n_stays,med_count,iqr_count,med_interval,iqr_interval
+f,49,57017,33.0,24-53,44.0,15-60
+t,11,31543,29.0,25-40,60.0,30-60

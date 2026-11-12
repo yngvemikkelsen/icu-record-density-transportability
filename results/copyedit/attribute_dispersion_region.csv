@@ -1,0 +1,5 @@
+region,n_hospitals,n_stays,med_count,iqr_count,med_interval,iqr_interval
+Midwest,15,26357,38.0,27-61,30.0,15-60
+Northeast,4,7800,26.0,24-30,60.0,60-60
+South,21,31096,27.0,22-37,60.0,30-60
+West,17,19193,36.0,27-56,30.0,15-60

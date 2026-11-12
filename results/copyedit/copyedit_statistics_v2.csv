@@ -1,0 +1,46 @@
+section,label,value,manuscript_says
+A,MIMIC-IV chartevents: records per 24 h,mean 27.9559 (SD 8.805),27.9559 / 28.0
+A,MIMIC-IV chartevents: records per 24 h,median 26 (IQR 24-29),"median 26, IQR #-#"
+A,MIMIC-IV chartevents: median interval (min),median 60 (IQR 60-60),"median 60 / 60 / 5, IQR #-#"
+A,eICU nurseCharting: records per 24 h,mean 34.8627 (SD 24.31),34.8627 / 34.9
+A,eICU nurseCharting: records per 24 h,median 29 (IQR 21-44),"median 29, IQR #-#"
+A,eICU nurseCharting: median interval (min),median 60 (IQR 26.5-60),"median 60 / 60 / 5, IQR #-#"
+A,eICU vitalPeriodic: records per 24 h,mean 273.5474 (SD 28.49),273.547 / 273.5
+A,eICU vitalPeriodic: records per 24 h,median 284 (IQR 272-287),"median 284, IQR #-#"
+A,eICU vitalPeriodic: median interval (min),median 5 (IQR 5-5),"median 60 / 60 / 5, IQR #-#"
+B,removed stays: age (years),median 67 (IQR 56-77),removed 67 / retained 66
+B,removed stays: ICU length of stay (days),median 2.56 (IQR 1.28-5.26),removed 2.56 / retained 1.92
+B,retained stays: age (years),median 66 (IQR 55-77),removed 67 / retained 66
+B,retained stays: ICU length of stay (days),median 1.92 (IQR 1.08-3.73),removed 2.56 / retained 1.92
+C,pooled analytic set: median charting interval (min),median 60 (IQR 60-60),every unit median 60
+C,pooled analytic set: longest interval (min),median 60 (IQR 60-99),median 60
+C,pooled analytic set: gaps beyond 2 hours,median 0 (IQR 0-0),median 0
+C,pooled analytic set: record count,median 26 (IQR 24-29),unit medians 23 to 27
+C,Cardiac Vascular Intensive Care Unit (CVICU): hours to first record,median 2.5719 (IQR 1.08153-4.08903),2.5719 / 2.57
+D,hospital 272: median count,3 (IQR 3-4); below-3 share 26.165% (219/837),
+D,hospital 280: median count,3 (IQR 3-4); below-3 share 24.731% (207/837),
+D,hospital 281: median count,"3 (IQR 3-4); below-3 share 33.844% (663/1,959)",
+D,hospital 277: median count,"4 (IQR 3-4); below-3 share 23.485% (248/1,056)",
+D,hospital 283: median count,"4 (IQR 3-4); below-3 share 26.494% (408/1,540)",
+D,hospital 416: median count,"6 (IQR 5-7); below-3 share 5.135% (80/1,558)",
+D,hospital 301: median count,7 (IQR 6-12); below-3 share 2.769% (18/650),
+D,hospital 417: median count,"9 (IQR 7-26); below-3 share 1.445% (20/1,384)",
+D,  restricted 60 hospitals,median 0.26 (IQR 0.07-0.56),median 0.5%
+D,  unrestricted 68 hospitals,median 0.32 (IQR 0.10-0.78),median 0.5%
+D,  all 193 eligible-stay hospitals,median 0.51 (IQR 0.00-7.32),median 0.5%
+D,restricted cohort mean record count,mean 39.0077 (SD 23.29),39.01 (SD ##)
+E,numbedscategory=100 - 249,count median 35 (IQR 24-58); interval median 30 (IQR 15-60),
+E,numbedscategory=250 - 499,count median 35 (IQR 26-54); interval median 32.5 (IQR 15-60),
+E,numbedscategory=>= 500,count median 29 (IQR 24-42); interval median 60 (IQR 30-60),
+E,teachingstatus=f,count median 33 (IQR 24-53); interval median 44 (IQR 15-60),
+E,teachingstatus=t,count median 29 (IQR 25-40); interval median 60 (IQR 30-60),
+E,region=Midwest,count median 38 (IQR 27-61); interval median 30 (IQR 15-60),
+E,region=Northeast,count median 26 (IQR 24-30); interval median 60 (IQR 60-60),
+E,region=South,count median 27 (IQR 22-37); interval median 60 (IQR 30-60),
+E,region=West,count median 36 (IQR 27-56); interval median 30 (IQR 15-60),
+F,eICU three-record minimum,"13,583/132,900 = 10.22%","10.22% of 132,900"
+F,  no nurse-charted record,"8,934/132,900 = 6.72%",8934 (6.72%)
+F,  one or two records,"4,649/132,900 = 3.50%",4649 (3.50%)
+F,"single-unit-type hospitals, restricted",26/60,26 (43%) of 60
+F,"single-unit-type hospitals, unrestricted",30/68,30 (44%) of 68
+F,"single-unit-type hospitals, eligible-stay set",151/193,151 (78%) of 193

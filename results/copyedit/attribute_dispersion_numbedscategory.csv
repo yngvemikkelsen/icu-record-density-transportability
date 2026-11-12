@@ -1,0 +1,4 @@
+numbedscategory,n_hospitals,n_stays,med_count,iqr_count,med_interval,iqr_interval
+100 - 249,13,10578,35.0,24-58,30.0,15-60
+250 - 499,20,19305,35.0,26-54,32.5,15-60
+>= 500,19,49486,29.0,24-42,60.0,30-60

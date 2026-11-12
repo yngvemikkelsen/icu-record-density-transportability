@@ -1,0 +1,13 @@
+section,label,value,manuscript_says
+1,MIMIC excluded (84): ICU length of stay (d),median 6.53 (IQR 3.42-13.11),median 6.53
+1,MIMIC retained: ICU length of stay (d),median 2.41 (IQR 1.57-4.48),median 2.41
+2,"median of per-hospital medians, unrestricted",median 32 (IQR 25-45),26
+2,"median of per-hospital medians, restricted",median 33 (IQR 27-46),26
+2,"median over stays, unrestricted",median 30 (IQR 23-46),26
+2,"median over stays, restricted",median 31 (IQR 24-48),26
+3,observation 220045: records per stay,mean 25.9229 (SD 9.588),25.92
+3,alarm high 220046: records per stay,mean 2.8192 (SD 1.177),2.8
+3,alarm low 220047: records per stay,mean 2.8209 (SD 1.177),2.8
+3,pooled three-item count,mean 31.4826 (SD 10.25),31.56
+3,"pooled count, reconstruction frame",mean 31.4846 (SD 10.09),31.48
+3,"observation item, reconstruction frame",mean 25.8869 (SD 9.474),25.88

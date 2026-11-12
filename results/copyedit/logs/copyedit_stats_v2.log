@@ -1,0 +1,130 @@
+Installed 5 packages in 37ms
+==============================================================================
+LOADING
+==============================================================================
+  MIMIC cache 2,444,918 rows | nc 5,223,657 | vp 45,164,349
+  per-stay 85,228 | eICU patient 200,859
+
+==============================================================================
+ANALYTIC FRAMES  (must reproduce before anything below is usable)
+==============================================================================
+  MIMIC analytic set        : 67,140   [stream_distributions.csv: 67,140]
+  eICU eligible-stay set    : 119,317   [stream_distributions.csv: 119,317]
+  eICU monitor-stream set   : 130,294   [stream_distributions.csv: 130,294]
+  eICU completed-window set : 132,900   [manuscript: 132,900]
+
+==============================================================================
+A. STREAM COMPARISON  ('MIMIC-IV chartevents yielded a mean of ...')
+==============================================================================
+    MIMIC-IV chartevents: records per 24 h                   mean 27.9559 (SD 8.805)   [manuscript: 27.9559 / 28.0]
+    MIMIC-IV chartevents: records per 24 h                   median 26 (IQR 24-29)   [manuscript: median 26, IQR #-#]
+    MIMIC-IV chartevents: median interval (min)              median 60 (IQR 60-60)   [manuscript: median 60 / 60 / 5, IQR #-#]
+    eICU nurseCharting: records per 24 h                     mean 34.8627 (SD 24.31)   [manuscript: 34.8627 / 34.9]
+    eICU nurseCharting: records per 24 h                     median 29 (IQR 21-44)   [manuscript: median 29, IQR #-#]
+    eICU nurseCharting: median interval (min)                median 60 (IQR 26.5-60)   [manuscript: median 60 / 60 / 5, IQR #-#]
+    eICU vitalPeriodic: records per 24 h                     mean 273.5474 (SD 28.49)   [manuscript: 273.547 / 273.5]
+    eICU vitalPeriodic: records per 24 h                     median 284 (IQR 272-287)   [manuscript: median 284, IQR #-#]
+    eICU vitalPeriodic: median interval (min)                median 5 (IQR 5-5)   [manuscript: median 60 / 60 / 5, IQR #-#]
+
+==============================================================================
+B. MIMIC-IV COHORT CONSTRUCTION  (removed vs retained)
+==============================================================================
+  icustays 94,458 | not first 9,216 | retained 85,228   [94,458 / 9216 / 85,228]
+    removed stays: age (years)                               median 67 (IQR 56-77)   [manuscript: removed 67 / retained 66]
+    removed stays: ICU length of stay (days)                 median 2.56 (IQR 1.28-5.26)   [manuscript: removed 2.56 / retained 1.92]
+    retained stays: age (years)                              median 66 (IQR 55-77)   [manuscript: removed 67 / retained 66]
+    retained stays: ICU length of stay (days)                median 1.92 (IQR 1.08-3.73)   [manuscript: removed 2.56 / retained 1.92]
+
+==============================================================================
+C. MIMIC-IV UNIT TYPES  (on the 67,140 analytic set)
+==============================================================================
+  stays with a careunit: 67,140   [unit_profiles.csv: 67,140]
+  careunit values: 10 (9 named plus OTHER)
+                                                  n_stays  med_count iqr_count  med_interval iqr_interval  med_max    iqr_max  med_gaps iqr_gaps  med_tfirst          iqr_tfirst
+careunit                                                                                                                                                                        
+Cardiac Vascular Intensive Care Unit (CVICU)        12024       27.0     25-32          60.0        59-60     60.0      60-60       0.0      0-0    2.571944     1.08153-4.08903
+Coronary Care Unit (CCU)                             7666       26.0     25-29          60.0        60-60     60.0     60-110       0.0      0-0    0.233333  0.0833333-0.714097
+Medical Intensive Care Unit (MICU)                  13880       25.0     24-27          60.0        60-60     60.0      60-84       0.0      0-0    0.250000   0.116667-0.666667
+Medical/Surgical Intensive Care Unit (MICU/SICU)    10495       25.0     24-29          60.0        60-60     60.0      60-93       0.0      0-0    0.333333   0.122778-0.683333
+Neuro Intermediate                                   4480       24.0     20-26          60.0        60-60    120.0  80-140.25       0.0      0-1    0.250000   0.113611-0.583333
+Neuro Stepdown                                        997       23.0     19-25          60.0        60-60    120.0     79-142       0.0      0-1    0.250000   0.116667-0.680278
+Neuro Surgical Intensive Care Unit (Neuro SICU)      1352       26.0     25-30          60.0        60-60     69.0     60-105       0.0      0-0    0.265556   0.121597-0.666667
+OTHER                                                 229       25.0     24-27          60.0        60-60     60.0      60-74       0.0      0-0    0.250000   0.112222-0.652778
+Surgical Intensive Care Unit (SICU)                  9030       26.0     25-30          60.0        60-60     61.0     60-103       0.0      0-0    0.216667      0.0833333-0.65
+Trauma SICU (TSICU)                                  6987       26.0     25-30          60.0        60-60     60.0     60-103       0.0      0-0    0.216667  0.0790278-0.782639
+
+  named-unit median count range: 23 to 27   [manuscript: 23 to 27]
+    pooled analytic set: median charting interval (min)      median 60 (IQR 60-60)   [manuscript: every unit median 60]
+    pooled analytic set: longest interval (min)              median 60 (IQR 60-99)   [manuscript: median 60]
+    pooled analytic set: gaps beyond 2 hours                 median 0 (IQR 0-0)   [manuscript: median 0]
+    pooled analytic set: record count                        median 26 (IQR 24-29)   [manuscript: unit medians 23 to 27]
+    Cardiac Vascular Intensive Care Unit (CVICU): hours to first record median 2.5719 (IQR 1.08153-4.08903)   [manuscript: 2.5719 / 2.57]
+
+==============================================================================
+D. eICU-CRD COHORTS AND THE 8 LOW-DENSITY HOSPITALS
+==============================================================================
+  eligible 119,317/193 | unrestricted 96,518/68 | restricted 88,560/60   [119,317/193 | 96,518/68 | 88,560/60]
+
+  the 8 excluded hospitals:
+    hospital 272: median count                               3 (IQR 3-4); below-3 share 26.165% (219/837)
+    hospital 280: median count                               3 (IQR 3-4); below-3 share 24.731% (207/837)
+    hospital 281: median count                               3 (IQR 3-4); below-3 share 33.844% (663/1,959)
+    hospital 277: median count                               4 (IQR 3-4); below-3 share 23.485% (248/1,056)
+    hospital 283: median count                               4 (IQR 3-4); below-3 share 26.494% (408/1,540)
+    hospital 416: median count                               6 (IQR 5-7); below-3 share 5.135% (80/1,558)
+    hospital 301: median count                               7 (IQR 6-12); below-3 share 2.769% (18/650)
+    hospital 417: median count                               9 (IQR 7-26); below-3 share 1.445% (20/1,384)
+
+  cohort below-3-record share, candidate frames (manuscript: median 0.5%):
+      restricted 60 hospitals                                median 0.26 (IQR 0.07-0.56)   [manuscript: median 0.5%]
+      unrestricted 68 hospitals                              median 0.32 (IQR 0.10-0.78)   [manuscript: median 0.5%]
+      all 193 eligible-stay hospitals                        median 0.51 (IQR 0.00-7.32)   [manuscript: median 0.5%]
+    restricted cohort mean record count                      mean 39.0077 (SD 23.29)   [manuscript: 39.01 (SD ##)]
+
+==============================================================================
+E. HOSPITAL ATTRIBUTES  (bed capacity / teaching / region)
+==============================================================================
+
+  by numbedscategory:
+                 n_hospitals  n_stays  med_count iqr_count  med_interval iqr_interval
+numbedscategory                                                                      
+100 - 249                 13    10578       35.0     24-58          30.0        15-60
+250 - 499                 20    19305       35.0     26-54          32.5        15-60
+>= 500                    19    49486       29.0     24-42          60.0        30-60
+    numbedscategory=100 - 249                                count median 35 (IQR 24-58); interval median 30 (IQR 15-60)
+    numbedscategory=250 - 499                                count median 35 (IQR 26-54); interval median 32.5 (IQR 15-60)
+    numbedscategory=>= 500                                   count median 29 (IQR 24-42); interval median 60 (IQR 30-60)
+
+  by teachingstatus:
+                n_hospitals  n_stays  med_count iqr_count  med_interval iqr_interval
+teachingstatus                                                                      
+f                        49    57017       33.0     24-53          44.0        15-60
+t                        11    31543       29.0     25-40          60.0        30-60
+    teachingstatus=f                                         count median 33 (IQR 24-53); interval median 44 (IQR 15-60)
+    teachingstatus=t                                         count median 29 (IQR 25-40); interval median 60 (IQR 30-60)
+
+  by region:
+           n_hospitals  n_stays  med_count iqr_count  med_interval iqr_interval
+region                                                                         
+Midwest             15    26357       38.0     27-61          30.0        15-60
+Northeast            4     7800       26.0     24-30          60.0        60-60
+South               21    31096       27.0     22-37          60.0        30-60
+West                17    19193       36.0     27-56          30.0        15-60
+    region=Midwest                                           count median 38 (IQR 27-61); interval median 30 (IQR 15-60)
+    region=Northeast                                         count median 26 (IQR 24-30); interval median 60 (IQR 60-60)
+    region=South                                             count median 27 (IQR 22-37); interval median 60 (IQR 30-60)
+    region=West                                              count median 36 (IQR 27-56); interval median 30 (IQR 15-60)
+
+==============================================================================
+F. DENOMINATORS FOR THE (n/N) PLACEHOLDERS
+==============================================================================
+    eICU three-record minimum                                13,583/132,900 = 10.22%   [manuscript: 10.22% of 132,900]
+      no nurse-charted record                                8,934/132,900 = 6.72%   [manuscript: 8934 (6.72%)]
+      one or two records                                     4,649/132,900 = 3.50%   [manuscript: 4649 (3.50%)]
+    single-unit-type hospitals, restricted                   26/60   [manuscript: 26 (43%) of 60]
+    single-unit-type hospitals, unrestricted                 30/68   [manuscript: 30 (44%) of 68]
+    single-unit-type hospitals, eligible-stay set            151/193   [manuscript: 151 (78%) of 193]
+
+==============================================================================
+45 statistics -> /Users/yngve/bcst/copyedit_stats_v2/copyedit_statistics_v2.csv
+==============================================================================

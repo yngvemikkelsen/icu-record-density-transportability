@@ -1,0 +1,24 @@
+Installed 5 packages in 39ms
+==============================================================================
+  reading patient.csv.gz
+  eICU patient table: 200,859   [denominator: 200,859]
+==============================================================================
+
+ELECTIVE SURGERY
+  reading apachePredVar.csv.gz
+    value recorded                                 33,256/200,859 = 16.6%   [manuscript: 19.4%]
+      electivesurgery == np.float64(0.0)           3,551/200,859 = 1.8%
+      electivesurgery == np.float64(1.0)           29,705/200,859 = 14.8%
+
+URINE OUTPUT
+  severity rows: 171,177
+    urine output recorded                          84,062/200,859 = 41.9%   [manuscript: 49.1%]
+
+APACHE PHYSIOLOGY
+  reading apacheApsVar.csv.gz
+  apacheApsVar rows 171,177, distinct stays 171,177
+    APACHE physiology unavailable                  29,682/200,859 = 14.8%   [manuscript: 23%]
+
+==============================================================================
+5 statistics -> /Users/yngve/bcst/copyedit_stats_v8/copyedit_statistics_v8.csv
+==============================================================================

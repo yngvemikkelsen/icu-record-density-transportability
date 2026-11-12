@@ -1,0 +1,6 @@
+label,value,manuscript_says
+value recorded,"33,256/200,859 = 16.6%",19.4%
+  electivesurgery == np.float64(0.0),"3,551/200,859 = 1.8%",
+  electivesurgery == np.float64(1.0),"29,705/200,859 = 14.8%",
+urine output recorded,"84,062/200,859 = 41.9%",49.1%
+APACHE physiology unavailable,"29,682/200,859 = 14.8%",23%

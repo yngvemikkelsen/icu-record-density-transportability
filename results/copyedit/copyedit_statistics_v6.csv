@@ -1,0 +1,10 @@
+section,label,value,manuscript_says
+A,"eligible-stay set, all 193 hospitals: per-hospital medians",median 27 (IQR 12-36),26
+A,"eligible-stay set, all 193 hospitals: over stays",median 29 (IQR 21-44),26
+A,"completed-window set, zeros retained: over stays",median 27 (IQR 13-41),26
+A,"completed-window set, zeros retained: per-hospital medians",median 24 (IQR 6-33),26
+A,"eligibility-sensitivity set, 80 hospitals >=500 completed-window",median 28 (IQR 17-42),26
+A,"whole patient table, zeros retained: over stays",median 23 (IQR 6-35),26
+A,whole patient table: per-hospital medians,median 19 (IQR 5-27),26
+A,unrestricted cohort: per-hospital medians,median 32 (IQR 25-45),26
+A,restricted cohort: per-hospital medians,median 33 (IQR 27-46),26
