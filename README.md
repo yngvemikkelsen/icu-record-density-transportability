@@ -2,13 +2,16 @@
 
 Analysis code for:
 
-> Mikkelsen Y. Data-Stream and Hospital-Level Variation in ICU Vital-Sign Record
-> Density Across MIMIC-IV and eICU-CRD: Retrospective Data Quality Study.
-> *JMIR Medical Informatics* (under revision, 2026).
+> Mikkelsen Y. Data Stream and Hospital-Level Variation in Intensive Care Unit
+> Vital-Sign Record Density Across Medical Information Mart for Intensive Care IV
+> and eICU Collaborative Research Database: Retrospective Data Quality Study.
+> *JMIR Medical Informatics* 2026;14:e99638. doi:10.2196/99638
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21901637.svg)](https://doi.org/10.5281/zenodo.21901637)
 
 The badge resolves to the most recent release. Individual versions have their own DOIs on Zenodo.
+The published article cites version 1.1.4 (doi:10.5281/zenodo.23540691). Version 1.1.5 adds
+the statistics supplied at copyediting and changes no earlier script or output.
 
 ---
 
@@ -39,7 +42,7 @@ of one cohort in a manner correlated with the exposure.
 The revision distinguishes documentation practice from incomplete contribution of
 the nurse-charted stream to the research database. Eight of the 68 eICU-CRD
 hospitals contributing at least 500 eligible stays record a median of fewer than
-12 heart-rate observations per 24 hours, against 26 for the cohort as a whole.
+12 heart-rate observations per 24 hours, against 32 for the cohort as a whole.
 They are excluded from the primary analysis, leaving **60 hospitals and 88,560
 stays**; the pooled decomposition then covers **155,700 stays across 61
 hospitals** including MIMIC-IV.
@@ -130,6 +133,26 @@ of the argument:
 | `paper17_probe_sofa_coverage.py` | Coverage of candidate severity components in both cohorts |
 | `paper17_build_severity_v3.py` | Harmonised severity components, worst-value rule stated in the header |
 | `bcst_residualization_v2.py` | Residualisation and outcome models under three adjustment regimes |
+
+### Statistics supplied at copyediting
+
+At copyediting the journal asked for interquartile ranges, standard deviations and
+absolute numerators beside values that the accepted manuscript gave as point estimates.
+Most could not be read from `results/`, so they were computed after acceptance by the
+scripts in `scripts/copyedit/`, run on 21 October 2026 in version order. Their outputs and
+console logs are in `results/copyedit/`, whose README maps every value supplied to the file
+and row it came from and records which rows were superseded. These scripts are not part of
+`run_all.sh`; each states its arguments in its header.
+
+| Script | Settles |
+|---|---|
+| `paper17_copyedit_stats_v2.py` | Stream comparison; MIMIC-IV cohort construction and care units; the eight low-density hospitals; recorded hospital attributes; eICU-CRD denominators |
+| `paper17_copyedit_stats_v3.py` | eICU-CRD excluded-stay length of stay; gaps beyond 2 hours |
+| `paper17_copyedit_stats_v5.py` | MIMIC-IV excluded-stay length of stay; first-24-hour item profile; the hospital comparator |
+| `paper17_copyedit_stats_v6.py` | The comparator on nine candidate analysis sets |
+| `paper17_copyedit_stats_v7.py` | Failed; retained with its log |
+| `paper17_copyedit_stats_v8.py` | Severity-coverage numerators and the APACHE frame size |
+| `paper17_copyedit_stats_v9.py` | Availability of the APACHE physiology table by analysis set |
 
 ---
 
@@ -241,14 +264,14 @@ window. Estimates from different sets are not interchangeable.
 .
 ├── README.md
 ├── LICENSE                                MIT
-├── CITATION.cff                           v1.1.0, Zenodo DOI, paper reference
+├── CITATION.cff                           version, Zenodo DOI, article reference
 ├── .zenodo.json                           Zenodo deposition metadata
 ├── .gitignore                             excludes the parquet caches
 ├── requirements.txt
 ├── setup.sh
 ├── run_all.sh                             full pipeline, dependency order
 │
-├── scripts/                               28 files
+├── scripts/
 │   ├── paper17_diagnose_exposure.py           1  exposure composition
 │   ├── paper17_reconcile_counts.py            2  competing count definitions
 │   ├── paper17_build_physiology_v2.py         3  first-24 h physiology
@@ -274,9 +297,14 @@ window. Estimates from different sets are not interchangeable.
 │   ├── paper17_nb_glmm.py                    23  fitted NB GLMM
 │   ├── paper17_revision_figures.py           24  Figures 2-5, restricted
 │   ├── paper17_hospital_attributes.py        25  recorded site attributes
+│   ├── paper17_vpc_ci.py                     26  VPC intervals
+│   ├── paper17_count_models.py               27  count and hurdle models
+│   ├── paper17_apache_enrichment.py          28  APACHE availability by set
 │   ├── paper17_probe_sofa_coverage.py            severity component coverage
 │   ├── paper17_build_severity_v3.py              harmonised severity attempt
-│   └── bcst_residualization_v2.py                residualisation, outcome models
+│   ├── bcst_residualization_v2.py                residualisation, outcome models
+│   └── copyedit/                                 statistics supplied at copyediting
+│       └── paper17_copyedit_stats_v2.py ... v9   runs v2, v3, v5 to v9
 │
 ├── figures/                               PNG and PDF
 │   ├── Figure1_charting_hour.*                300 dpi, unaffected by restriction
@@ -375,7 +403,17 @@ window. Estimates from different sets are not interchangeable.
     │
     │   count and hurdle models (27)
     ├── count_models.csv
-    └── metric_correlations.csv
+    ├── metric_correlations.csv
+    │
+    │   APACHE physiology availability (28)
+    ├── apache_enrichment.csv
+    │
+    └── copyedit/                              statistics supplied at copyediting
+        ├── README.md                          maps each supplied value to file and row
+        ├── copyedit_statistics_v2.csv ... v9  one per run that wrote output
+        ├── mimic_unit_dispersion.csv
+        ├── attribute_dispersion_*.csv         three files, one per attribute
+        └── logs/                              console log of each run
 ```
 
 Numbers in the tree refer to the script table above. Where a quantity is produced
@@ -392,8 +430,14 @@ The parquet caches (`hr_timestamps.parquet`, `nursecharting_offsets.parquet`,
 
 ## Citation
 
-If you use this code, cite the manuscript. If you use the archived snapshot,
-cite the version DOI from the Zenodo badge above.
+If you use this code, cite the article:
+
+> Mikkelsen Y. Data Stream and Hospital-Level Variation in Intensive Care Unit
+> Vital-Sign Record Density Across Medical Information Mart for Intensive Care IV
+> and eICU Collaborative Research Database: Retrospective Data Quality Study.
+> *JMIR Medical Informatics* 2026;14:e99638. doi:10.2196/99638
+
+If you use the archived snapshot, cite the version DOI from the Zenodo badge above.
 
 ## Licence
 

@@ -21,15 +21,20 @@ abstract: >-
   Poisson comparison with the count-model routine, so that the Poisson and
   negative binomial coefficients reported together come from one estimator,
   and adds the correlation between record count and the count of intervals
-  exceeding 30 minutes. The DOI above is the concept DOI and resolves to the
-  most recent version.
+  exceeding 30 minutes. Version 1.1.4 adds the availability of the eICU-CRD
+  APACHE physiology table on every analysis set, deposited as a negative
+  result. Version 1.1.5 deposits the scripts, outputs and console logs behind
+  the dispersion statistics and denominators supplied at copyediting, and
+  changes no earlier script or output. The published article cites version
+  1.1.4. The DOI above is the concept DOI and resolves to the most recent
+  version.
 authors:
   - family-names: Mikkelsen
     given-names: Yngve
     orcid: "https://orcid.org/0000-0003-1543-3805"
     affiliation: "Saïd Business School, University of Oxford"
-version: "1.1.4"
-date-released: "2026-10-21"
+version: "1.1.5"
+date-released: "2026-11-12"
 license: MIT
 doi: "10.5281/zenodo.21901637"
 repository-code: "https://github.com/yngvemikkelsen/icu-record-density-transportability"
@@ -44,11 +49,16 @@ keywords:
 references:
   - type: article
     title: >-
-      Data-Stream and Hospital-Level Variation in ICU Vital-Sign Record Density
-      Across MIMIC-IV and eICU-CRD: Retrospective Data Quality Study
+      Data Stream and Hospital-Level Variation in Intensive Care Unit Vital-Sign
+      Record Density Across Medical Information Mart for Intensive Care IV and
+      eICU Collaborative Research Database: Retrospective Data Quality Study
     authors:
       - family-names: Mikkelsen
         given-names: Yngve
     journal: "JMIR Medical Informatics"
     year: 2026
-    notes: "Under revision"
+    volume: 14
+    issue: 1
+    start: "e99638"
+    doi: "10.2196/99638"
+    url: "https://medinform.jmir.org/2026/1/e99638"
